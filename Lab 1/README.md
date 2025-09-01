@@ -109,6 +109,8 @@ Goals: The goal is for the roommate to use the light to indicate the activity ha
 
 \*\***Include pictures of your storyboards here**\*\*
 
+[Pictures](assets)
+
 Present your ideas to the other people in your breakout room (or in small groups). You can just get feedback from one another or you can work together on the other parts of the lab.
 
 \*\***Summarize feedback you got here.**\*\*
