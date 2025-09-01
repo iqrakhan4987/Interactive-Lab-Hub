@@ -108,6 +108,7 @@ Activity: The actor is either by themselves, with another person or multiple who
 Goals: The goal is for the roommate to use the light to indicate the activity happening in the room without being interrupted by another person. For the other person, their goal is to find out what's happening in the room without interrupting that roommate. 
 
 \*\***Include pictures of your storyboards here**\*\*
+![Pictures of Storyboards](./assets/images)
 
 
 
