@@ -126,6 +126,8 @@ The feedback focuses on clarification of how the chair light resets. What happen
 
 Try physically acting out the interaction you planned. For now, you can just pretend the device is doing the things you’ve scripted for it. 
 
+
+
 \*\***Are there things that seemed better on paper than acted out?**\*\*
 Hydration Bottle:
 On paper, it feels simple that the light just turns off once you drink, but acting it out raises issues. For example, what if you only sip a little—should the light still turn off?
@@ -161,9 +163,15 @@ Take a little time to set up the wizarding set-up that allows for someone to rem
 
 \*\***Include your first attempts at recording the set-up video here.**\*\*
 
+![Video of Storyboards](./assets/Video)
+
 Now, change the goal within the same setting, and update the interaction with the paper prototype. 
 
+The water bottle changes colors according to how much water you drink. It will flash red in the beginning to indicate that it is time to hydrate. While drinking, it will slowly fade to show you that you have to continue drinking water. When the bottle fades to white, that is an indication that you haeve drunk enough water. 
+
 \*\***Show the follow-up work here.**\*\*
+
+Add new video here.
 
 
 ## Part E. Costume the device
@@ -174,12 +182,16 @@ Think about the setting of the device: is the environment a place where the devi
 
 \*\***Include sketches of what your devices might look like here.**\*\*
 
+
+
 \*\***What concerns or opportunitities are influencing the way you've designed the device to look?**\*\*
 
 
 ## Part F. Record
 
 \*\***Take a video of your prototyped interaction.**\*\*
+
+
 
 \*\***Please indicate who you collaborated with on this Lab.**\*\*
 Be generous in acknowledging their contributions! And also recognizing any other influences (e.g. from YouTube, Github, Twitter) that informed your design. 
