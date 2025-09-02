@@ -3,9 +3,9 @@
 # Staging Interaction
 
 \*\***NAME OF COLLABORATOR HERE**\*\*
-Alaysia Reape
-August Wang
-Alice Zhang
+Alaysia Reape (ar2443)
+August Wang (zw843)
+Alice Zhang (az536)
 
 ### For this lab, you will need:
 1. Paper
@@ -108,13 +108,13 @@ Activity: The actor is either by themselves, with another person or multiple who
 Goals: The goal is for the roommate to use the light to indicate the activity happening in the room without being interrupted by another person. For the other person, their goal is to find out what's happening in the room without interrupting that roommate. 
 
 \*\***Include pictures of your storyboards here**\*\*
+
 ![Pictures of Storyboards](./assets/images)
-
-
 
 Present your ideas to the other people in your breakout room (or in small groups). You can just get feedback from one another or you can work together on the other parts of the lab.
 
 \*\***Summarize feedback you got here.**\*\*
+
 Feedback on Hydration Bottle:
 The feedback focuses on how the bottle knows when to turn on or off after a user drinks. A suggested solution is to involve a flow sensor or a scale to measure the water level in the bottle.
 
@@ -127,7 +127,6 @@ The feedback focuses on clarification of how the chair light resets. What happen
 Try physically acting out the interaction you planned. For now, you can just pretend the device is doing the things you’ve scripted for it. 
 
 
-
 \*\***Are there things that seemed better on paper than acted out?**\*\*
 Hydration Bottle:
 On paper, it feels simple that the light just turns off once you drink, but acting it out raises issues. For example, what if you only sip a little—should the light still turn off?
@@ -137,6 +136,7 @@ On paper, it's easy to say that the chair lights up after sitting too long.Howev
 
 
 \*\***Are there new ideas that occur to you or your collaborator that come up from the acting?**\*\*
+
 Hydration Bottle:
 Instead of turning off instantly, the light could dim gradually as you drink more water throughout the day.  Also, a vibration or sound cure could make the reminder more noticeable. 
 
@@ -163,7 +163,14 @@ Take a little time to set up the wizarding set-up that allows for someone to rem
 
 \*\***Include your first attempts at recording the set-up video here.**\*\*
 
-![Video of Storyboards](./assets/Video)
+Hydration Bottle: This bottle reminds user to drink water. It will turn red to remind you. The bottle light turns off when you open the bottle.
+![Video of Hydration Bottle](./assets/Video/HydrationBottle1.MOV)
+
+Guided Library: You can look for a specific book by asking the library for it. The book will light up when you ask.
+![Video of Guided Library](./assets/Video/GuidedLibrary1.MOV)
+
+Glucose Monitor: The glucose monitor flashes red when your glucose is outside the normal limits. It reminds user to take their medication.
+![Video of Glucose Monitor](./assets/Video/Monitor1.MOV)
 
 Now, change the goal within the same setting, and update the interaction with the paper prototype. 
 
@@ -171,7 +178,14 @@ The water bottle changes colors according to how much water you drink. It will f
 
 \*\***Show the follow-up work here.**\*\*
 
-Add new video here.
+Hydration Bottle: You can set a hydration goal. According to the goal, the bottle lights up red to remind you to drink water. It will turn yellow until you have drunk enough water. Then, it will turn white. This allows the user to complete their hydration goal throughout the day.
+![Video of Hydration Bottle Modified](./assets/Video/HydrationBottle2.MOV)
+
+Guided Library: You can ask the library to look for a certain genre instead of just one book. 
+![Video of Guided Library Modified](./assets/Video/GuidedLibrary2.MOV)
+
+Glucose Monitor: The glucose monitor is a helpful tool for individuals around ther user. Indviduals around the user can remind users to take medication when their monitor starts flashing.
+![Video of Glucose Monitor Modified](./assets/Video/Monitor2.MOV)
 
 
 ## Part E. Costume the device
@@ -191,12 +205,17 @@ Think about the setting of the device: is the environment a place where the devi
 
 \*\***Take a video of your prototyped interaction.**\*\*
 
+Videos can be accessed in assets folder: ![Video of Interactions(./assets/Video)
+
+OR it can be accessed by google drive: https://drive.google.com/drive/folders/1kSUskptzW78pKM0_CgVHx-R-p_F5Uokn?usp=drive_link
 
 
 \*\***Please indicate who you collaborated with on this Lab.**\*\*
-Be generous in acknowledging their contributions! And also recognizing any other influences (e.g. from YouTube, Github, Twitter) that informed your design. 
 
+I collaborated with Alice Zhang ( az536 ) , Alaysia Reape ( ar2443 ) and August Wang ( zw843 )
 
+Everyone contributed to sketching 2-3 storyboards.
+Alice Zhang, Alaysia Reape and Iqra Khan(me) contributed to taking videos of our prototypes.
 
 # Staging Interaction, Part 2 
 
