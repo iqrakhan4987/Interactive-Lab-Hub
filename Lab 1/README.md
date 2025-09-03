@@ -198,6 +198,10 @@ Think about the setting of the device: is the environment a place where the devi
 
 ![Final Sketch of Hydration Bottle](./assets/images/Final_HBottle.jpg)
 
+![Final Sketch of Guided Library](./assets/images/Final_GuidedLibrary.png)
+
+![Final Sketch of Hydration Bottle](./assets/images/Final_Monitor.jpg)
+
 \*\***What concerns or opportunitities are influencing the way you've designed the device to look?**\*\*
 
 The phone is attached to the water bottle. If I were to make this device, I would make a water bottle that lights up itself. The phone would not have to be attached to the bottle.
@@ -206,7 +210,7 @@ The phone is attached to the water bottle. If I were to make this device, I woul
 
 \*\***Take a video of your prototyped interaction.**\*\*
 
-Videos can be accessed in assets folder: ![Video of Interactions(./assets/Video)
+Videos can be accessed in assets folder: ![Video of Interactions](./assets/Video)
 
 OR it can be accessed by google drive: https://drive.google.com/drive/folders/1kSUskptzW78pKM0_CgVHx-R-p_F5Uokn?usp=drive_link
 
