@@ -46,65 +46,109 @@ Labs are due on Mondays. Make sure this page is linked to on your main class hub
 
 \*\***Describe your setting, players, activity and goals here.**\*\*
 **Storyboard 1: Hydration Bottle**
+
 Creator: Iqra Khan 
+
 Setting: This device is designed to be used throughout the day. 
+
 Players: The main player is carrying this water bottle with them. Other people can see the bottle light up.
+
 Activity: The hydration bottle lights up throughout the day to remind the user to drink water. Once the user drinks enough water, the light turns off. This repeats throughout the day.
+
 Goals: The goal is to remind the user to hydrate themselves throughout the day.
 
 **Storyboard 2: Light Chair**
+
 Creator: Iqra Khan 
+
 Setting: The setting is at home in your room.
+
 Players: The main player is working or studying on their desk. They are sitting on a chair.
+
 Activity: The user is sitting down on the chair. After some time, the chair lights up. This reminds the user to get up, stretch and take a break.
+
 Goals: The goal is to remind the user to stretch and take a breather while they are working or studying.
 
 **Storyboard 3: Visual Glucose Monitor**
+
 Creator: Alice 
+
 Setting: This device is designed to be used throughout everyday activities.
+
 Players: The main user is wearing the glucose monitor. Other players nearby might also notice alerts but will not impact light functionality.
+
 Activity: The main user wears the monitor. If the user’s glucose levels rise above the safe threshold, the device flashes to alert the user and those nearby. Once the user’s levels return to normal, the light turns off.
+
 Goals: Provide real-time alerts of harmful blood sugar levels.
 
 **Storyboard 4: Indoor Plant Buddy**
+
 Creator: Alice 
+
 Setting: This device is designed to be used indoors, placed within plant pots. The interaction with the user will occur within the same room.
+
 Players: The main player is the plant owner and other players may be anyone nearby who sees the light effects.
+
 Activity: The device sits in the soil with its light visible above. It measures hydration and nutrients, changing colors to reflect soil health. The light is always on, and users interact by observing it.
+
 Goals: The goal of this device is to provide a simple, constant visual indicator of soil quality to help owners care for their plants.
 
 **Storyboard 5: The Pet Care Light/Feeder**
+
 Setting: The interaction is happening in a kitchen during the day while the cat owner is away.
+
 Players: The primary actor is the cat (the user). The unseen player is the cat’s owner, who will later interpret the light.
+
 Activity: The cat interacts with the food and water bowls. The device/light changes color depending on what the cat needs:for example, red when the food bowl is empty, blue when the water bowl is low. When the owner returns, they see the light and know exactly what the pet needs.
+
 Goals: The goal is for the cat’s needs to be “communicated” through the light, helping the absent owner understand and take care of the pet.
 
 **Storyboard 6: The Mood Ring**
+
 Creator: August 
+
 Setting: The interaction is happening in a shared living space (like a dorm room or living room) in the evening.
+
 Players: The primary actor is a student/roommate who wears or keeps the light-device nearby. The unseen players are their friends/roommates who notice the light and respond.
+
 Activity: The device displays different colors to signal social needs: for example, green = open to hang out, blue = wants quiet companionship, happy = needs alone time, purple = wants to talk. Roommates notice the light and adjust their approach based on the signal.
+
 Goals: The goal is for the person to communicate their current social needs without having to say them out loud, helping each other respect boundaries or offer support appropriately
 
 **Storyboard 7: The Workout Motivator**
+
 Creator: August
+
 Setting: The interaction happens in a living room or gym area.
+
 Players: The primary actor is someone who is exercising.
+
 Activity: As the actor exercises, the device gradually glows brighter. If the actor slows down the movement or wants to give up, the light changes frequency to hype them up. When they finish, it flashes in celebration. 
+
 Goals: The goal is to provide motivation and track progress through light feedback.
 
 **Storyboard 8: The Guided Light Library**
+
 Creator: Alaysia Reape
+
 Setting: The interaction is happening during the day when the library is open and takes place in a library.
+
 Players: The person is a visitor to the library. The other people who are not visible are the librarian, other library workers, and other library guests.
+
 Activity: The actor is by themselves in this situation but they are interacting with the light.
+
 Goals: The goal is for the person who is visiting the library to find the book they are looking for using the interactive device/light.
 
 **Storyboard 9: Room Activity Light Dorm**
+
 Creator: Alaysia Reape
+
 Setting: The interaction is happening throughout the day depending on the scene. That can include the morning, afternoon, or evening. All of the events take place in the dorm room or its communal space.
+
 Players: There are multiple players including the different roommates and their guest depending on the scene specifically. In some scenes the roommate is by themselves and in others they have a guest or multiple. An unseen person in this storyboard may be the person viewing the color of the light before interacting with the roommate.
+
 Activity: The actor is either by themselves, with another person or multiple who are their guests, or knowingly or unknowingly with the person viewing the light.
+
 Goals: The goal is for the roommate to use the light to indicate the activity happening in the room without being interrupted by another person. For the other person, their goal is to find out what's happening in the room without interrupting that roommate. 
 
 \*\***Include pictures of your storyboards here**\*\*
