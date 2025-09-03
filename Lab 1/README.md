@@ -196,10 +196,11 @@ Think about the setting of the device: is the environment a place where the devi
 
 \*\***Include sketches of what your devices might look like here.**\*\*
 
-
+![Final Sketch of Hydration Bottle](./assets/images/Final_HBottle.jpg)
 
 \*\***What concerns or opportunitities are influencing the way you've designed the device to look?**\*\*
 
+The phone is attached to the water bottle. If I were to make this device, I would make a water bottle that lights up itself. The phone would not have to be attached to the bottle.
 
 ## Part F. Record
 
