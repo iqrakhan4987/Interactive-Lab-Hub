@@ -302,7 +302,8 @@ I modified the Hydration Reminder. The follwing features were added to the desig
 
 Note: I continued to use light because the water bottle is a stationary object. Also, this bottle is meant to be used in public as well as in private. It is less distracting for people surrounding the user. 
 
-![Hydration Bottle Storyboard](image.png)
+<img width="1021" height="206" alt="Screenshot 2025-09-07 at 10 18 42 PM" src="https://github.com/user-attachments/assets/1f9dab47-c9e6-4586-9015-73061db0790a" />
+
 
 // The Storyboard was made using Claud AI.
 
@@ -313,10 +314,12 @@ Costumes for the Water Bottle:
 
 1. The chamelon water cap changes color for different scenerios.
 
-![Chamelon Water Bottle](image-1.png)
+<img width="385" height="318" alt="Screenshot 2025-09-07 at 10 21 55 PM" src="https://github.com/user-attachments/assets/bffd0225-3cae-4022-953b-a8109fdbc439" />
+
 
 2. Octupus are good with campuflage.
+3. 
+<img width="148" height="223" alt="Screenshot 2025-09-07 at 10 22 13 PM" src="https://github.com/user-attachments/assets/33e3a99d-21dc-4abf-967b-abbae0b5e1ee" />
 
-![Octupus Water Bottle](image-2.png)
 
 // These pictures were made using Gemini
