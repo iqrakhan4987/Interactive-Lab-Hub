@@ -1,5 +1,3 @@
-
-
 # Staging Interaction
 
 \*\***NAME OF COLLABORATOR HERE**\*\*
@@ -277,6 +275,8 @@ You will be assigned three partners from other groups. Go to their github pages,
 
 \*\***Summarize feedback from your partners here.**\*\*
 
+Many people liked the hydration bottle and guided library idea. For the Glucose monitor, light is not the best way to interact with the device. It will be better to use sound. The costumes for the devices can be better and more creative. 
+
 ## Make it your own
 
 Do last week’s assignment again, but this time: 
@@ -285,3 +285,38 @@ Do last week’s assignment again, but this time:
 3) We will be grading with an emphasis on creativity. 
 
 \*\***Document everything here. (Particularly, we would like to see the storyboard and video, although photos of the prototype are also great.)**\*\*
+
+I modified the Hydration Reminder. The follwing features were added to the design:
+
+1. Count down for the Remider.
+    The reminder allows me to check how much time is left until I should drink some water.
+
+2. Setting hydration Goals.
+    I can set certain hydration goals. For example, I want to drink 10 cups (80 oz) during the day (14 hrs). So, every hour the bottle lets me see how much water I drank. For the purpose of the video, the bottle tells me when I drink 2,4 and 6 ozs.
+
+3. Color fades.
+    The color of the bottle changes based on certain circumstances. As the time approaches for the reminder, the bottle gradually turns red. Then, after drinking water, it gradually turns blue. 
+
+4. If you dont want to drink water, you can simply shake the bottle to get rid of the reminder.
+
+
+Note: I continued to use light because the water bottle is a stationary object. Also, this bottle is meant to be used in public as well as in private. It is less distracting for people surrounding the user. 
+
+![Hydration Bottle Storyboard](image.png)
+
+// The Storyboard was made using Claud AI.
+
+Add video
+
+
+Costumes for the Water Bottle:
+
+1. The chamelon water cap changes color for different scenerios.
+
+![Chamelon Water Bottle](image-1.png)
+
+2. Octupus are good with campuflage.
+
+![Octupus Water Bottle](image-2.png)
+
+// These pictures were made using Gemini
