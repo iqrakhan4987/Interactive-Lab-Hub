@@ -307,7 +307,7 @@ Note: I continued to use light because the water bottle is a stationary object. 
 
 // The Storyboard was made using Claud AI.
 
-Add video
+Watch video here: https://drive.google.com/file/d/1FfzEnPV5rSDR8VB6VpjJnQL9GifB3Rox/view?usp=drive_link
 
 
 Costumes for the Water Bottle:
@@ -318,7 +318,7 @@ Costumes for the Water Bottle:
 
 
 2. Octupus are good with campuflage.
-3. 
+
 <img width="148" height="223" alt="Screenshot 2025-09-07 at 10 22 13 PM" src="https://github.com/user-attachments/assets/33e3a99d-21dc-4abf-967b-abbae0b5e1ee" />
 
 
