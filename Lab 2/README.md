@@ -111,6 +111,10 @@ Install the packages from the requirements.txt and run the example script `cli_c
 The terminal should show the time, you can press `ctrl-c` to exit the script.
 If you are unfamiliar with the Python code in `cli_clock.py`, have a look at [this Python refresher](https://hackernoon.com/intermediate-python-refresher-tutorial-project-ideas-and-tips-i28s320p). If you are still concerned, please reach out to the teaching staff!
 
+Output of cli_clock.py:
+
+<img width="724" height="745" alt="image" src="https://github.com/user-attachments/assets/a5aa683b-9026-4215-bf10-787eb3f0b24c" />
+
 
 ## Part C. 
 ### Set up your RGB Display
