@@ -4,6 +4,7 @@ import digitalio
 import board
 from PIL import Image, ImageDraw, ImageFont
 import adafruit_rgb_display.st7789 as st7789
+from datetime import datetime
 
 # Configuration for CS and DC pins (these are FeatherWing defaults on M0/M4):
 cs_pin = digitalio.DigitalInOut(board.D5) 
@@ -42,7 +43,6 @@ draw = ImageDraw.Draw(image)
 # Draw a black filled box to clear the image.
 draw.rectangle((0, 0, width, height), outline=0, fill=(0, 0, 0))
 disp.image(image, rotation)
-
 # Draw some shapes.
 # First define some constants to allow easy resizing of shapes.
 padding = -2
@@ -61,34 +61,29 @@ backlight = digitalio.DigitalInOut(board.D22)
 backlight.switch_to_output()
 backlight.value = True
 
+def get_text_height(font, text):
+    """Get text height using getbbox (compatible with newer PIL versions)"""
+    bbox = font.getbbox(text)
+    return bbox[3] - bbox[1]
+
 while True:
     # Draw a black filled box to clear the image.
     draw.rectangle((0, 0, width, height), outline=0, fill=(0, 0, 0))
+
+    # Get current time and format it
+    current_time = datetime.now()
+    time_str = current_time.strftime("%H:%M:%S")
+    date_str = current_time.strftime("%Y-%m-%d")
+    day_str = current_time.strftime("%A")
     
-    # Lab 2 part D: Display clock information (from cli_clock.py)
-    current_time = time.strftime("%H:%M:%S")
-    current_date = time.strftime("%m/%d/%Y")
-    
-    # Get text dimensions for centering
-    time_bbox = draw.textbbox((0, 0), current_time, font=font)
-    date_bbox = draw.textbbox((0, 0), current_date, font=font)
-    
-    time_width = time_bbox[2] - time_bbox[0]
-    time_height = time_bbox[3] - time_bbox[1]
-    date_width = date_bbox[2] - date_bbox[0]
-    date_height = date_bbox[3] - date_bbox[1]
-    
-    # Center the time and date on screen
-    time_x = (width - time_width) // 2
-    time_y = (height // 2) - time_height - 10
-    
-    date_x = (width - date_width) // 2  
-    date_y = (height // 2) + 10
-    
-    # Draw the time and date
-    draw.text((time_x, time_y), current_time, font=font, fill=(255, 255, 255))  # White time
-    draw.text((date_x, date_y), current_date, font=font, fill=(0, 255, 0))      # Green date
-    
+    # Draw the time and date on the display
+    y = top
+    draw.text((x, y), f"Time: {time_str}", font=font, fill="#FFFFFF")
+    y += get_text_height(font, time_str)
+    draw.text((x, y), f"Date: {date_str}", font=font, fill="#FFFFFF")
+    y += get_text_height(font, date_str)
+    draw.text((x, y), f"Day: {day_str}", font=font, fill="#FFFFFF")
+
     # Display image.
     disp.image(image, rotation)
     time.sleep(1)
