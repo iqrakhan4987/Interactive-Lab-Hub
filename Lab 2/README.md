@@ -201,12 +201,14 @@ Please sketch/diagram your clock idea. (Try using a [Verplank digram](http://www
 
 **We strongly discourage and will reject the results of literal digital or analog clock display.**
 
+I am huge book lover. I can easily read about 300 pages in a day. I would usually finish a book within the same day. So, this lets me know when the day is over. Taking this as my inspiration, my clock measures times with respect to how many pages I read in a day. If I read 150 pages, then half of the day is complete. If I read 300+ pages, then the day is almost over. 
 
 \*\*\***A copy of your code should be in your Lab 2 Github repo.**\*\*\*
 
 **First version of my clock [my_clock.py](my_clock.py)
 **
 
+<img width="622" height="1030" alt="image" src="https://github.com/user-attachments/assets/2d63d9ee-2745-4f28-9a79-2eba547b12bb" />
 
 After you edit and work on the scripts for Lab 2, the files should be upload back to your own GitHub repo! You can push to your personal github repo by adding the files here, commiting and pushing.
 
@@ -225,10 +227,12 @@ After that, Git will ask you to login to your GitHub account to push the updates
 \*\*\***Take a video of your PiClock.**\*\*\*
 <img width="2678" height="2008" alt="image" src="https://github.com/user-attachments/assets/14b56200-b87e-46bd-8a0f-a88301deb5af" />
 
+See video here: https://drive.google.com/file/d/1AVNXuEaWJKoQZwi3MlQ1mKfxymhMpteL/view?usp=drive_link
 
 ## Part G. 
 ## Sketch and brainstorm further interactions and features you would like for your clock for Part 2.
 
+My clock makes it difficult to understand how much time is left in the day. So, I will add a feature that displays the amount of time left in the day/book. 
 
 # Prep for Part 2
 
@@ -248,4 +252,4 @@ As always, make sure you document contributions and ideas from others explicitly
 You are permitted (but not required) to work in groups and share a turn in; you are expected to make equal contribution on any group work you do, and N people's group project should look like N times the work of a single person's lab. What each person did should be explicitly documented. Make sure the page for the group turn in is linked to your Interactive Lab Hub page. 
 
 Final Version of my clock: `bookClock.py`
-Video: 
+Video: https://drive.google.com/file/d/10y1d_4tvCiakXKjam9FCnKEKsChT4mnX/view?usp=drive_link
