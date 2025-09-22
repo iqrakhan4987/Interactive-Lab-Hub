@@ -193,12 +193,6 @@ Pro Tip: Using tools like [code-server](https://coder.com/docs/code-server/lates
 ## Part E.
 ### Modify the barebones clock to make it your own
 
-Does time have to be linear?  How do you measure a year? [In daylights? In midnights? In cups of coffee?](https://www.youtube.com/watch?v=wsj15wPpjLY)
-
-Can you make time interactive? You can look in `screen_test.py` for examples for how to use the buttons.
-
-Please sketch/diagram your clock idea. (Try using a [Verplank digram](http://www.billverplank.com/IxDSketchBook.pdf)!
-
 **We strongly discourage and will reject the results of literal digital or analog clock display.**
 
 I am huge book lover. I can easily read about 300 pages in a day. I would usually finish a book within the same day. So, this lets me know when the day is over. Taking this as my inspiration, my clock measures times with respect to how many pages I read in a day. If I read 150 pages, then half of the day is complete. If I read 300+ pages, then the day is almost over. 
@@ -209,17 +203,6 @@ I am huge book lover. I can easily read about 300 pages in a day. I would usuall
 **
 
 <img width="622" height="1030" alt="image" src="https://github.com/user-attachments/assets/2d63d9ee-2745-4f28-9a79-2eba547b12bb" />
-
-After you edit and work on the scripts for Lab 2, the files should be upload back to your own GitHub repo! You can push to your personal github repo by adding the files here, commiting and pushing.
-
-```
-(venv) pi@raspberrypi:~/Interactive-Lab-Hub/Lab 2 $ git add .
-(venv) pi@raspberrypi:~/Interactive-Lab-Hub/Lab 2 $ git commit -m 'your commit message here'
-(venv) pi@raspberrypi:~/Interactive-Lab-Hub/Lab 2 $ git push
-```
-
-After that, Git will ask you to login to your GitHub account to push the updates online, you will be asked to provide your GitHub user name and password. Remember to use the "Personal Access Tokens" you set up in Part A as the password instead of your account one! Go on your GitHub repo with your laptop, you should be able to see the updated files from your Pi!
-
 
 ## Part F. 
 ## Make a short video of your modified barebones PiClock
@@ -232,24 +215,11 @@ See video here: https://drive.google.com/file/d/1AVNXuEaWJKoQZwi3MlQ1mKfxymhMpte
 ## Part G. 
 ## Sketch and brainstorm further interactions and features you would like for your clock for Part 2.
 
-My clock makes it difficult to understand how much time is left in the day. So, I will add a feature that displays the amount of time left in the day/book. 
+My clock makes it difficult to understand how much time is left in the day. So, I will add a feature that displays the amount of time left in the day/book.
 
-# Prep for Part 2
-
-1. Pick up remaining parts for kit on Thursday lab class. Check the updated [parts list inventory](partslist.md) and let the TA know if there is any part missing.
-  
-
-2. Look at and give feedback on the Part G. for at least 2 other people in the class (and get 2 people to comment on your Part G!)
 
 # Lab 2 Part 2
-
-[Update your Lab Hub](pull_updates/README.md) to get the latest content and requirements for Part 2.
-
-Modify the code from last week's lab to make a new visual interface for your new clock. You may [extend the Pi](Extending%20the%20Pi.md) by adding sensors or buttons, but this is not required.
-
-As always, make sure you document contributions and ideas from others explicitly in your writeup.
-
-You are permitted (but not required) to work in groups and share a turn in; you are expected to make equal contribution on any group work you do, and N people's group project should look like N times the work of a single person's lab. What each person did should be explicitly documented. Make sure the page for the group turn in is linked to your Interactive Lab Hub page. 
+The final version of my clock lets me know how many pages ( How much time) are left in the day. 
 
 Final Version of my clock: `bookClock.py`
 Video: https://drive.google.com/file/d/10y1d_4tvCiakXKjam9FCnKEKsChT4mnX/view?usp=drive_link
