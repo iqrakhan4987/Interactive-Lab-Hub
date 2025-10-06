@@ -98,6 +98,45 @@ For Part 2, you will redesign the interaction with the speech-enabled device usi
 2. What are other modes of interaction _beyond speech_ that you might also use to clarify how to interact?
 3. Make a new storyboard, diagram and/or script based on these reflections.
 
+**NEW SCRIPT:
+Scenario 1: Dealing with Annoyance**
+
+User Input: "I am so annoyed right now."
+Chatbot Response: "I hear you. It's completely valid to feel that way. What's on your mind? Sometimes just talking about it can help."
+
+User Input: "My coworker keeps interrupting me in meetings."
+Chatbot Response: "That sounds really frustrating. When you feel that surge of annoyance, what's one small thing you could do for yourself? Even a few seconds to pause can help."
+
+User Input: "I just don't know what to do."
+Chatbot Response: "That's okay. You don’t have to have all the answers right now. Let’s focus on one thing. How would you like to feel instead of annoyed?"
+
+Follow-Up Suggestions: The chatbot could suggest taking a short breathing exercise, journaling about the frustration, or creating a simple plan to address the coworker calmly.
+
+**Scenario 2: Feeling Down and Lonely**
+
+User Input: "I feel really down and lonely."
+Chatbot Response: "I'm so sorry to hear that. It takes courage to admit when you're struggling. What's one thing you'd like to talk about right now?"
+
+User Input: "I just miss my friends. I haven't seen them in a while."
+Chatbot Response: "That makes perfect sense. Missing friends can feel really heavy. When you think about them, what’s one happy memory that comes to mind?"
+
+User Input: "We went on a road trip last year and it was so much fun."
+Chatbot Response: "That sounds wonderful! A cherished memory like that can really lift your spirits. Is there a small way you could connect with them today, even if it’s just a quick text or call?"
+
+Follow-Up Suggestions: The chatbot could also suggest listening to music that reminds the user of their friends, looking at old photos, or planning a future meetup.
+
+**Scenario 3: Job Interview Anxiety**
+
+User Input: "I am so worried about my job interview tomorrow. I can't stop thinking about everything that could go wrong."
+Chatbot Response: "It sounds like you're carrying a lot of worry right now. That's a heavy feeling. Let’s focus on one thing at a time. What's one small detail you feel prepared for?"
+
+User Input: "I've practiced my answers for a lot of the common questions."
+Chatbot Response: "That's fantastic! Preparing in advance is a big step. Let’s try a quick grounding exercise: name five things you can see right now."
+
+User Input: "A lamp, my notebook, a cup of coffee, a window, my phone."
+Chatbot Response: "Good. Now, what's one simple thing you can do right now to help yourself feel a bit more at ease?"
+
+Follow-Up Suggestions: The chatbot could suggest taking a walk, listening to a calming podcast, or writing a list of things that could go right in the interview to shift perspective.
 ## Prototype your system
 
 [Code for Chatbot](voice_assistant.py)
@@ -126,6 +165,9 @@ Error Handling: Fallback responses and exception handling ensure robust operatio
 
 *Include videos or screencaptures of both the system and the controller.*
 
+https://drive.google.com/file/d/176PSMQEj1E-Cr1BhqjA-01I4erWEx5oE/view?usp=drive_link
+
+<img width="829" height="400" alt="image" src="https://github.com/user-attachments/assets/36ff4772-a1f7-4d98-9df8-20ba5d2734b5" />
 
 ## Test the system
 Try to get at least two people to interact with your system. (Ideally, you would inform them that there is a wizard _after_ the interaction, but we recognize that can be hard.)
@@ -152,6 +194,7 @@ We can do the following:
 Additional Sensors that can be implemented:
 - Camera : Can be used for face detection. We can train a model to recognize emotions.
 - Proximity Sensor: Detect when users approach/leave to automatically wake or sleep the system
+
 
 
 
