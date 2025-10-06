@@ -9,15 +9,13 @@ We will focus on **audio** as the main modality for interaction to start; these 
 
 
 \*\***Write your own shell file to use your favorite of these TTS engines to have your Pi greet you by name.**\*\*
-(This shell file should be saved to your own repo for this lab.)
 
+[Greeting by name](greet.sh)
 
 
 \*\***Write your own shell file that verbally asks for a numerical based input (such as a phone number, zipcode, number of pets, etc) and records the answer the respondent provides.**\*\*
 
-
-
-\*\***Try creating a simple voice interaction that combines speech recognition, Ollama processing, and text-to-speech output. Document what you built and how users responded to it.**\*\*
+[Number ask](ask_number.sh)
 
 ### Storyboard
 
@@ -191,6 +189,7 @@ We can do the following:
 Additional Sensors that can be implemented:
 - Camera : Can be used for face detection. We can train a model to recognize emotions.
 - Proximity Sensor: Detect when users approach/leave to automatically wake or sleep the system
+
 
 
 
