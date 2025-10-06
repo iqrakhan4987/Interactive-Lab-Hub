@@ -170,9 +170,6 @@ https://drive.google.com/file/d/176PSMQEj1E-Cr1BhqjA-01I4erWEx5oE/view?usp=drive
 <img width="829" height="400" alt="image" src="https://github.com/user-attachments/assets/36ff4772-a1f7-4d98-9df8-20ba5d2734b5" />
 
 ## Test the system
-Try to get at least two people to interact with your system. (Ideally, you would inform them that there is a wizard _after_ the interaction, but we recognize that can be hard.)
-
-Answer the following:
 
 ### What worked well about the system and what didn't?
 The conversation with the chatbot was very robotic and scripted. The chat bot wasnt able to give more personalized replies.
@@ -194,6 +191,7 @@ We can do the following:
 Additional Sensors that can be implemented:
 - Camera : Can be used for face detection. We can train a model to recognize emotions.
 - Proximity Sensor: Detect when users approach/leave to automatically wake or sleep the system
+
 
 
 
