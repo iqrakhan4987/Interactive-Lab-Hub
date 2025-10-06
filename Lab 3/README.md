@@ -99,13 +99,31 @@ For Part 2, you will redesign the interaction with the speech-enabled device usi
 3. Make a new storyboard, diagram and/or script based on these reflections.
 
 ## Prototype your system
-
-The system should:
-* use the Raspberry Pi 
-* use one or more sensors
-* require participants to speak to it. 
+[Code for Chatbot](voice_assistant.py)
 
 *Document how the system works*
+
+**Hardware components**
+Raspberry Pi with Mini PiTFT display (240x135 ST7789)
+Push button (GPIO 23) for recording control
+Speaker for audio output
+Microphone for voice input
+
+**Software Stack**
+
+Vosk: Offline speech recognition (converts speech to text)
+Ollama + TinyLlama: Local AI model for generating conversational responses
+Piper: Text-to-speech synthesis (converts text to spoken audio)
+Python libraries: sounddevice, PIL, adafruit_rgb_display
+
+**How it works**
+User presses button → microphone captures audio → Vosk transcribes to text → TinyLlama generates response → Piper converts to speech → audio plays through speaker. The display shows animated faces (idle/listening/thinking/speaking) to provide visual feedback throughout the interaction cycle.
+
+**Key Features**
+Visual Feedback: Four face states (idle, listening, thinking, speaking) provide clear user feedback
+Button-Based Recording: Push-to-talk prevents false triggers and gives users control over recording boundaries
+Brief Responses: AI constrained to 1-2 sentences to maintain engagement in voice conversations
+Error Handling: Fallback responses and exception handling ensure robust operation
 
 *Include videos or screencaptures of both the system and the controller.*
 
@@ -116,21 +134,25 @@ Try to get at least two people to interact with your system. (Ideally, you would
 Answer the following:
 
 ### What worked well about the system and what didn't?
-\*\**your answer here*\*\*
+The conversation with the chatbot was very robotic and scripted. The chat bot wasnt able to give more personalized replies.
 
 ### What worked well about the controller and what didn't?
 
-\*\**your answer here*\*\*
+Initially, the chatbot would talk over me when I would take some time to reply. However, I added a new feature where I can press a button, speak and then press the button again. This way, the chatbot knows when I start and stop speaking.
 
 ### What lessons can you take away from the WoZ interactions for designing a more autonomous version of the system?
-
-\*\**your answer here*\*\*
-
+1. The WoZ interactions reveal that natural conversation requires context awareness. An autonomous system needs robust conversation memory (like your conversation_history) to maintain coherent multi-turn dialogues and avoid repetitive responses.
+2. The constraint to keep AI responses to 1-2 sentences is crucial - users lose engagement with lengthy responses in voice interactions. This differs significantly from text-based chat.
+3. The physical button for recording boundaries reduces false triggers but creates a less natural interaction pattern. A fully autonomous system would benefit from wake word detection or voice activity detection for more seamless conversations.
 
 ### How could you use your system to create a dataset of interaction? What other sensing modalities would make sense to capture?
+We can do the following:
+- Response Quality Metrics: Track which AI responses led to continued conversation vs. premature exits
+- Button Press Patterns: Record timing between button presses to understand how users structure their speaking turns
 
-\*\**your answer here*\*\*
-
+Additional Sensors that can be implemented:
+- Camera : Can be used for face detection. We can train a model to recognize emotions.
+- Proximity Sensor: Detect when users approach/leave to automatically wake or sleep the system
 
 
 
