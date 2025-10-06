@@ -99,9 +99,8 @@ For Part 2, you will redesign the interaction with the speech-enabled device usi
 3. Make a new storyboard, diagram and/or script based on these reflections.
 
 ## Prototype your system
-[Code for Chatbot](voice_assistant.py)
 
-*Document how the system works*
+[Code for Chatbot](voice_assistant.py)
 
 **Hardware components**
 Raspberry Pi with Mini PiTFT display (240x135 ST7789)
@@ -153,6 +152,7 @@ We can do the following:
 Additional Sensors that can be implemented:
 - Camera : Can be used for face detection. We can train a model to recognize emotions.
 - Proximity Sensor: Detect when users approach/leave to automatically wake or sleep the system
+
 
 
 
