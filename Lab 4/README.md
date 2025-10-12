@@ -175,56 +175,56 @@ Usually, sensors need to be positioned in specific locations or orientations to 
 
 **\*\*\*Draw 5 sketches of different ways you might use your sensor, and how the larger device needs to be shaped in order to make the sensor useful.\*\*\***
 
+My 5 ideas are listed below:
+
+1. Snake Game :This is a handheld gaming console where a joystick controls the snake's direction during gameplay, and a rotary encoder is used to navigate and select options in the game's menus.
+![Snake Game](image-8.png)
+![Snake_AI](image-13.png)
+
+2. Music Player: This device uses a gesture sensor to allow the user to control playback (like skipping a song with a swipe motion), while a proximity sensor could be used to control the volume based on how far or close you are.
+![Music Player](image-9.png)
+![Music AI](image-14.png)
+
+3. Smart Lock: This is an electronic door lock system where a rotary encoder, capacitve touch buttons and a joystick is used to set a password, and a button confirms the code, triggering a servo motor to lock or unlock the door.
+![Smart Lock](image-10.png)
+![Lock AI](image-15.png)
+
+4. Motion & Sound Painter: This is an interactive art tool where a gesture sensor detects hand movements in space to draw lines on a screen, and a sound detector adds interactive elements or color changes based on ambient noise.
+![Painter](image-11.png)
+![Painter AI](image-16.png)
+
+5. Proximity Alarm: This is a security system that uses a proximity sensor to detect an intruder, causing an alarm signal to activate and a servo motor to potentially trigger a physical deterrent (like a warning sign or small lock)
+![Alarm](image-12.png)
+![Alarm AI](image-17.png)
+
+// Note : I used gemini to create pictures of my ideas. Sometime, the pictures were pretty accurate to how I imagine the device to look like in real life. However, most of the images were very "technical". 
+
 **\*\*\*What are some things these sketches raise as questions? What do you need to physically prototype to understand how to anwer those questions?\*\*\***
 
+I am questioning the shape of the devices. Most devices right now look rectangular and "boring". However, I think that some of these devices can be made to look more appealing and interactive. For example, the motion/sound painter can be more artistic in design. We can use a unique shape of a screen instead of the generic rectangular screen. 
+
 **\*\*\*Pick one of these designs to prototype.\*\*\***
+
+I am choosing the snake-game to prototype. It is one my core memories from my childhood. I think that the simple deisgn of the screen, encoder and joystick suits this device. 
 
 
 ### Part D
 ### Physical considerations for displaying information and housing parts
-
-
-
-Here is a Pi with a paper faceplate on it to turn it into a display interface:
-
-
-<img src="https://github.com/FAR-Lab/Developing-and-Designing-Interactive-Devices/blob/2020Fall/images/paper_if.png?raw=true"  width="250"/>
-
-
-This is fine, but the mounting of the display constrains the display location and orientation a lot. Also, it really only works for applications where people can come and stand over the Pi, or where you can mount the Pi to the wall.
-
-Here is another prototype for a paper display:
-
-<img src="https://github.com/FAR-Lab/Developing-and-Designing-Interactive-Devices/blob/2020Fall/images/b_box.png?raw=true"  width="250"/>
-
-
-Your kit includes these [SparkFun Qwiic OLED screens](https://www.sparkfun.com/products/17153). These use less power than the MiniTFTs you have mounted on the GPIO pins of the Pi, but, more importantly, they can be more flexibly mounted elsewhere on your physical interface. The way you program this display is almost identical to the way you program a  Pi display. Take a look at `oled_test.py` and some more of the [Adafruit examples](https://github.com/adafruit/Adafruit_CircuitPython_SSD1306/tree/master/examples).
-
-<p float="left">
-<img src="https://cdn.sparkfun.com//assets/parts/1/6/1/3/5/17153-SparkFun_Qwiic_OLED_Display__0.91_in__128x32_-01.jpg" height="200" />
-
-</p>
-
-
-It holds a Pi and usb power supply, and provides a front stage on which to put writing, graphics, LEDs, buttons or displays.
-
-This design can be made by scoring a long strip of corrugated cardboard of width X, with the following measurements:
-
-| Y height of box <br> <sub><sup>- thickness of cardboard</sup></sub> | Z  depth of box <br><sub><sup>- thickness of cardboard</sup></sub> | Y height of box  | Z  depth of box | H height of faceplate <br><sub><sup>* * * * * (don't make this too short) * * * * *</sup></sub>|
-| --- | --- | --- | --- | --- | 
-
-Fold the first flap of the strip so that it sits flush against the back of the face plate, and tape, velcro or hot glue it in place. This will make a H x X interface, with a box of Z x X footprint (which you can adapt to the things you want to put in the box) and a height Y in the back. 
-
-Here is an example:
-
-<img src="https://github.com/FAR-Lab/Developing-and-Designing-Interactive-Devices/blob/2020Fall/images/horoscope.png?raw=true"  width="250"/>
-
-Think about how you want to present the information about what your sensor is sensing! Design a paper display for your project that communicates the state of the Pi and a sensor. Ideally you should design it so that you can slide the Pi out to work on the circuit or programming, and then slide it back in and reattach a few wires to be back in operation.
  
 **\*\*\*Sketch 5 designs for how you would physically position your display and any buttons or knobs needed to interact with it.\*\*\***
 
+The follwoing are the design sketches for the game:
+
+
+
 **\*\*\*What are some things these sketches raise as questions? What do you need to physically prototype to understand how to anwer those questions?\*\*\***
 
+There are a few different things to consider while making the design for the snake game. 
+
+1. Should it be a handheld device or not? Do we want it to be portable or not? 
+2. Should the controller be separate than the screen?
+3. How can the device be designed for better ergonomics?
+4. Which design allows the user to interact with the game more?
 **\*\*\*Pick one of these display designs to integrate into your prototype.\*\*\***
 
 **\*\*\*Explain the rationale for the design.\*\*\*** (e.g. Does it need to be a certain size or form or need to be able to be seen from a certain distance?)
