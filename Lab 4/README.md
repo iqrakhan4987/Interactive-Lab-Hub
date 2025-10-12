@@ -215,7 +215,7 @@ I am choosing the snake-game to prototype. It is one my core memories from my ch
 
 The follwoing are the design sketches for the game:
 
-
+![Design Sketches of Snake Game ](image-19.png)
 
 **\*\*\*What are some things these sketches raise as questions? What do you need to physically prototype to understand how to anwer those questions?\*\*\***
 
@@ -225,11 +225,14 @@ There are a few different things to consider while making the design for the sna
 2. Should the controller be separate than the screen?
 3. How can the device be designed for better ergonomics?
 4. Which design allows the user to interact with the game more?
-**\*\*\*Pick one of these display designs to integrate into your prototype.\*\*\***
+5. What is the most comfortable design?
 
-**\*\*\*Explain the rationale for the design.\*\*\*** (e.g. Does it need to be a certain size or form or need to be able to be seen from a certain distance?)
+**\*\*\*Pick one of these display designs to integrate into your prototype.Explain the rationale for the design.\*\*\***
 
-Build a cardboard prototype of your design.
+I am choosing the handheld design. The reason for this is becuase it is portable and easy to use. Users can play this game whereever they want. It will feel like you are holding a phone but becuase of the joystick and the rotary encoder, it will feel like a arcade game. It is the best of both worlds "Phone + arcade". 
+
+Cardboard Prototype:
+
 
 
 **\*\*\*Document your rough prototype.\*\*\***
