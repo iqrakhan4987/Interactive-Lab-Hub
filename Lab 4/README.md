@@ -232,11 +232,14 @@ There are a few different things to consider while making the design for the sna
 I am choosing the handheld design. The reason for this is becuase it is portable and easy to use. Users can play this game whereever they want. It will feel like you are holding a phone but becuase of the joystick and the rotary encoder, it will feel like a arcade game. It is the best of both worlds "Phone + arcade". 
 
 Cardboard Prototype:
-
+![Prototype 1](image-20.png)
 
 
 **\*\*\*Document your rough prototype.\*\*\***
 
+ You can see the first rough prototype of the Snake Game below:
+ 
+https://drive.google.com/file/d/14Ns12JMlTyB9NSIohsGHD1Rhj8-6Iu4j/view?usp=drive_link
 
 # LAB PART 2
 
