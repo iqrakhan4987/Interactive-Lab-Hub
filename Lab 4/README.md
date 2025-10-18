@@ -251,6 +251,7 @@ https://drive.google.com/file/d/14Ns12JMlTyB9NSIohsGHD1Rhj8-6Iu4j/view?usp=drive
 My new version of the snake game can do the following:
 
 There are different modes in which you can play the game. 
+
 Mode 1: Classical method with joystick control
 Mode 2: Encoder Control 
 Mode 3: Controlling snake movements by physically tilting the game. 
@@ -296,6 +297,7 @@ adafruit-circuitpython-seesaw adafruit-circuitpython-lsm6ds sparkfun-qwiic-joyst
 
 ***Brief explanation about Code***
 **Core Functions**
+
 Input Handling:
 - get_joystick_direction() – Reads analog joystick values and converts them into movement directions.
 - get_encoder_direction() – Maps encoder rotation to clockwise/counterclockwise direction changes.
@@ -332,7 +334,7 @@ Rotary Encoder (Menu Navigation & Level 2 Control) Placement
 - The encoder needs to be accessible for both quick menu turns and continuous game control. A comfortable position is typically on the upper edge or corner, away from the primary grip and thumb controls.
 -The encoder requires a two-finger pinch grip (thumb and index finger) for precise rotation. Placing it on the side or top edge allows the user to operate it easily using the non-dominant hand or index finger without interfering with the main gameplay controls (the joystick) or obstructing the screen.
 
-Note: Due to the size of the raspberry pi 5, I had to place the encoder to the right side of teh joystick. However, if I use a smaller microcontroller, the above is how I would place the encoder.
+Note: Due to the size of the raspberry pi 5, I had to place the encoder to the right side of the joystick. However, if I use a smaller microcontroller, the above is how I would place the encoder.
 
 Accelerometer (Level 3) Arrangement
 - The accelerometer (LSM6DS3) must be integrated internally and hidden from the user.
@@ -346,7 +348,8 @@ The device is lightweight and comfortable to hold. It is in the shape of a squar
 ![alt text](image-22.png)
 
 
-**How are teh components connected**
+**How are the components connected**
+
 All the components are connected by using QWIC connectors.
 
 ![alt text](image-23.png)
