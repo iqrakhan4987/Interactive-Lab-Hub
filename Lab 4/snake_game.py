@@ -1,9 +1,5 @@
 """
-Snake Game for Raspberry Pi with MiniPiTFT, Joystick, and Rotary Encoder
-- Display: MiniPiTFT ST7789 (135x240)
-- Controls: Qwiic Joystick for snake movement
-- Menu: Rotary Encoder for navigation
-"""
+Snake Game Version 1: A simple snake game using a joystick for movement and an encoder for menu navigation."""
 
 import time
 import digitalio

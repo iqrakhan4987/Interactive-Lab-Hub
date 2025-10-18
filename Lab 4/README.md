@@ -244,44 +244,123 @@ https://drive.google.com/file/d/14Ns12JMlTyB9NSIohsGHD1Rhj8-6Iu4j/view?usp=drive
 # LAB PART 2
 
 ### Part 2
-
-Following exploration and reflection from Part 1, complete the "looks like," "works like" and "acts like" prototypes for your design, reiterated below.
-
-
-
 ### Part E
 
 #### Chaining Devices and Exploring Interaction Effects
-
-**Document your system with:**
-- Code for your multi-device demo
-- Photos and/or video of the working prototype in action
-- A simple interaction diagram or sketch showing how inputs and outputs are connected and interact
-- Written reflection: What did you learn about multi-input/multi-output interaction? What was fun, surprising, or challenging?
 
 My new version of the snake game can do the following:
 
 There are different modes in which you can play the game. 
 Mode 1: Classical method with joystick control
-Mode 2: Capacitive touch "buttons" 
+Mode 2: Encoder Control 
 Mode 3: Controlling snake movements by physically tilting the game. 
 
 The classical method has already been implemented in part 1. You can see the code for joystick control [here](snake_game.py)
 
-**Questions to consider:**
-- What new types of interaction become possible when you combine two or more sensors or actuators?
-- How does the physical arrangement of devices (e.g., where the encoder or sensor is placed) change the user experience?
-- What happens if you use one device to control or modulate another (e.g., encoder sets a threshold, sensor triggers an action)?
-- How does the system feel if you swap which device is "primary" and which is "secondary"?
+After implementing the joystick control, I wanted to increases the level of difficulty by adding encoder control. You can see the code for encoder control [here](snake_game2.py)
 
-Try chaining different combinations and document what you discover!
+Joystick and encoder control are pretty basic ways to pay a game. In order to add a unique mode, I wanted to be able to play the game by pysically titing the game. 
 
-### Part F
+You can see the code for acceleramator control [here](snake_game3.py)
 
-### Record
+The three modes allows the user to interact with the game in various unique ways. Each level adds a new level of difficulty.
 
-Document all the prototypes and iterations you have designed and worked on! Again, deliverables for this lab are writings, sketches, photos, and videos that show what your prototype:
-* "Looks like": shows how the device should look, feel, sit, weigh, etc.
-* "Works like": shows what the device can do
-* "Acts like": shows how a person would interact with the device
+## Documenatation for Snake Game
+
+**Hardware Components**
+1. Raspberry Pi 5
+2. Joystick Modules
+3. Encoder
+4. Acceleramator
+5. QWIC connectors 
+5. Cardboard 
+
+**Software Components**
+
+Pillow → (from PIL import Image, ImageDraw, ImageFont)
+
+adafruit-blinka (enables CircuitPython libraries on Raspberry Pi)
+
+adafruit-circuitpython-rgb-display → (import adafruit_rgb_display.st7789 as st7789)
+
+adafruit-circuitpython-seesaw → (from adafruit_seesaw import seesaw, rotaryio, digitalio as seesaw_digitalio)
+
+adafruit-circuitpython-lsm6ds → (import adafruit_lsm6ds.lsm6ds3 as lsm6ds)
+
+sparkfun-qwiic-joystick → (import qwiic_joystick)
+
+```
+pip install pillow adafruit-blinka adafruit-circuitpython-rgb-display \
+adafruit-circuitpython-seesaw adafruit-circuitpython-lsm6ds sparkfun-qwiic-joystick
+```
+
+***Brief explanation about Code***
+**Core Functions**
+Input Handling:
+- get_joystick_direction() – Reads analog joystick values and converts them into movement directions.
+- get_encoder_direction() – Maps encoder rotation to clockwise/counterclockwise direction changes.
+- get_accelerometer_direction() – Translates device tilt into up/down/left/right motion.
+
+Graphics:
+- draw_cell() and draw_text() – Render grid cells and text onto the display.
+- draw_game() – Updates the display each frame to show the snake, food, and score bar.
+
+Game Flow:
+- countdown() – Displays a 3–2–1–GO sequence before gameplay starts.
+- game_loop() – Core loop that handles movement, collisions, and scoring.
+- accelerometer_tutorial() – Teaches users how to control the snake using tilt before Level 3 starts.
+
+**How the game works**
+1. The game starts with a menu interface navigated using the encoder.
+2. The player selects a control mode (Level 1–3).
+3. Once started, the snake moves in real time, controlled by the chosen input device.
+4. The player earns points by eating red food squares.
+5. The game ends upon collision with the wall or self, showing the final score.
+6. The user can pause or quit using the encoder button.
+
+**How does the physical arrangement of devices (e.g., where the encoder or sensor is placed) change the user experience?**
+
+Screen (MiniPiTFT) Placement
+- The display should be positioned near the center or the top third of the handheld device.
+- This placement aligns the visual information (the game) with the user's natural line of sight. Placing the screen at the bottom would require the user to angle their head or hands uncomfortably downward, creating a poor ergonomic experience and making it difficult to monitor the entire playing field quickly.
+
+Joystick (Level 1) Placement
+- The joystick should be placed on the lower right side of the device.
+- This position optimizes for the dominant hand's thumb, which is the primary digit used for analog direction control in handheld gaming. Placing it near the area where the user naturally grips the device ensures that the thumb can easily and precisely manipulate the joystick without straining the hand or losing grip.
+
+Rotary Encoder (Menu Navigation & Level 2 Control) Placement
+- The encoder needs to be accessible for both quick menu turns and continuous game control. A comfortable position is typically on the upper edge or corner, away from the primary grip and thumb controls.
+-The encoder requires a two-finger pinch grip (thumb and index finger) for precise rotation. Placing it on the side or top edge allows the user to operate it easily using the non-dominant hand or index finger without interfering with the main gameplay controls (the joystick) or obstructing the screen.
+
+Note: Due to the size of the raspberry pi 5, I had to place the encoder to the right side of teh joystick. However, if I use a smaller microcontroller, the above is how I would place the encoder.
+
+Accelerometer (Level 3) Arrangement
+- The accelerometer (LSM6DS3) must be integrated internally and hidden from the user.
+- Unlike physical controls, the accelerometer is a passive input device; its function relies on the movement of the entire chassis, not its individual location. The user doesn't need to know where it is, only that tilting the device moves the snake. Hiding it maintains a clean aesthetic and prevents the user from accidentally touching or damaging the sensitive component. Furthermore, its internal orientation must be correctly aligned with the expected axes of motion (i.e., forward tilt must map to the snake's UP/DOWN movement, which required flipping the Y-axis in the code).
+
+**How does the device feel like**
+
+The device is lightweight and comfortable to hold. It is in the shape of a square . The user can see three main components ( Screen, Joystick and Encoder).
+
+![alt text](image-21.png)
+![alt text](image-22.png)
+
+
+**How are teh components connected**
+All the components are connected by using QWIC connectors.
+
+![alt text](image-23.png)
+
+### Part F Recording 
+
+You can see the recording at the following link:
+
+https://drive.google.com/file/d/1-T83G7m3g3fVwwnMUKkWo-IC1VT1_nC1/view?usp=drive_link
+
+
+**Written reflection: What did you learn about multi-input/multi-output interaction? What was fun, surprising, or challenging?**
+
+Building this game taught me that the biggest challenge in multi-control design is making sure all the different inputs—the joystick, the encoder, and tilting the whole device—can speak the same simple language to the snake. 
+The trickiest part was getting the tilt control to feel intuitive. I tested this game with 2 users. The users were able to use the joystick and encoder pretty well. However, the users found the tilting level to be difficult. They were unsure about how much they had to tilt to a side for it to work. So, taking this in to consideration, I added a "tutorial" section that allows the user to practice the tilting before the game starts. 
+Overall, the experience was very enjoyable. 
 
