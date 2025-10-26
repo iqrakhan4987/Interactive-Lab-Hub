@@ -367,3 +367,7 @@ Building this game taught me that the biggest challenge in multi-control design 
 The trickiest part was getting the tilt control to feel intuitive. I tested this game with 2 users. The users were able to use the joystick and encoder pretty well. However, the users found the tilting level to be difficult. They were unsure about how much they had to tilt to a side for it to work. So, taking this in to consideration, I added a "tutorial" section that allows the user to practice the tilting before the game starts. 
 Overall, the experience was very enjoyable. 
 
+
+User Testing:
+A user tested my game: You can see a video at the link below:
+https://drive.google.com/file/d/1KnzrUc_kQz-2miKEBIbbV9uoXOgdxkkh/view?usp=sharing
