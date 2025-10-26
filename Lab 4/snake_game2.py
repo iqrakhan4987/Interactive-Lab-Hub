@@ -128,10 +128,6 @@ def get_joystick_direction():
     x = joystick.horizontal
     y = joystick.vertical
     
-    # NOTE: Since the screen is rotated 90 degrees, UP/DOWN on the stick
-    # might map to LEFT/RIGHT movement on the screen, depending on how
-    # the Pi is mounted. We'll assume the physical stick direction
-    # maps to the logical screen direction based on a standard setup.
     if abs(x - JOY_CENTER) > abs(y - JOY_CENTER):
         if x < JOY_CENTER - JOY_THRESHOLD:
             return 'LEFT'
@@ -148,10 +144,6 @@ def get_encoder_direction(current_snake_direction):
     """
     Get direction from rotary encoder for snake movement.
     Encoder is rotational, so it can only change direction (LEFT/RIGHT turn).
-    
-    Assumption:
-    - Clockwise turn changes direction by +90 degrees (e.g., RIGHT -> UP -> LEFT -> DOWN)
-    - Counter-clockwise turn changes direction by -90 degrees (e.g., RIGHT -> DOWN -> LEFT -> UP)
     """
     global last_encoder_move_pos
     
@@ -214,11 +206,7 @@ class Snake:
     def change_direction(self, new_direction):
         opposites = {'UP': 'DOWN', 'DOWN': 'UP', 'LEFT': 'RIGHT', 'RIGHT': 'LEFT'}
         # For encoder control, we *must* allow 180-degree turns as the encoder
-        # dictates the *new* absolute direction (it doesn't rely on relative stick movement).
-        # We'll allow the logic from the caller (game_loop) to handle the 180 check.
-        # However, for *joystick* it's essential. We'll keep the check here and 
-        # modify the encoder logic to only return a direction if it's a valid turn.
-        
+        # dictates the *new* absolute direction 
         # NOTE: For the encoder method above, we return the *next* direction in the cycle.
         # This implementation inherently prevents 180-degree turns unless the snake
         # is only 1 cell long, which is fine for this control scheme.
@@ -340,7 +328,6 @@ class Menu:
             draw_text(option, text_x, y_pos, FONT_LARGE, color)
 
 def countdown():
-    # ... (countdown function remains unchanged)
     global image, draw
     draw.rectangle((0, 0, SCREEN_WIDTH, SCREEN_HEIGHT), fill=COLOR_BLACK)
 
@@ -465,7 +452,6 @@ def game_loop(difficulty):
 # ==================== MAIN ====================
 
 def main():
-    # ... (main function remains unchanged)
     global image, draw, disp, rotation
     menu = Menu()
     
