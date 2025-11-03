@@ -70,7 +70,7 @@ https://drive.google.com/file/d/1LPtlO-JxWKBNUXMRwhvquFnVlcm1vG_j/view?usp=shari
 [Moondream](https://www.ollama.com/library/moondream) is a lightweight vision-language model that can understand and answer questions about images. Unlike the classification models above, Moondream can describe images in natural language and answer specific questions about what it sees.
 
 The camera captured a photo of me sitting in my room.
-It was able to detect a lot of things from the image ( clothes, glasses, expressions, setting , location.
+It was able to detect a lot of things from the image ( clothes, glasses, expressions, setting , location).
 
 ![alt text](<You what is her expression.png>))
 
@@ -98,7 +98,7 @@ For my interaction, I created a Teachable Machine emotion classifier that can re
 ### Test the interaction prototype
 
 Now flight test your interactive prototype and **note down your observations**:
-For example:
+
 1. When does it what it is supposed to do?
 The emotion classifier works correctly when I sit in front of the camera in a similar lighting and background as during training. In these conditions, the live video feed clearly displays the correct label — “Happy” or “Sad” — on the screen in real time. When I smile or make a frown, the model updates almost instantly, showing the correct expression with high confidence.
 
@@ -115,22 +115,38 @@ Fast head movements or talking could distort facial expressions, making the mode
 1. Are they aware of the uncertainties in the system?
 A user might not be fully aware of the system’s uncertainties at first. For example, they may assume the classifier will always correctly read their emotion, even though lighting, camera angle, or wearing glasses can change how the model interprets their face. Over time, however, users may notice that the system reacts inconsistently when they adjust their glasses or move slightly, making them realize the classifier’s sensitivity to visual changes.
 
-1. How bad would they be impacted by a miss classification?
+2. How bad would they be impacted by a miss classification?
 In this project, the impact of misclassification is low since the output is just an on-screen label. It might show “Sad” when the person is actually happy, which is only mildly confusing or amusing. However, in a real-world scenario — such as emotion-based feedback systems or educational tools — consistent misclassification could lead to frustration or loss of trust in the technology.
 
-1. How could change your interactive system to address this?
+3. How could change your interactive system to address this?
 To reduce these uncertainties, I could retrain the model using more diverse images, including ones where I wear glasses, remove them, or change lighting conditions. Adding a “neutral” expression class could help the system better handle in-between expressions. Another improvement would be to smooth the predictions over several frames so that a single misread frame doesn’t immediately flip the displayed emotion.
 
-1. Are there optimizations you can try to do on your sense-making algorithm.
+4. Are there optimizations you can try to do on your sense-making algorithm.
+
 Yes. I could:
 
-Collect a larger and more varied training dataset (different lighting, angles, facial accessories).
+1. Collect a larger and more varied training dataset (different lighting, angles, facial accessories).
 
-Use data augmentation (rotation, brightness adjustments) to make the model more robust.
+2. Use data augmentation (rotation, brightness adjustments) to make the model more robust.
 
-Implement temporal smoothing — averaging predictions across a few frames for more stable output.
+3. Implement temporal smoothing — averaging predictions across a few frames for more stable output.
 
-Fine-tune the model’s confidence threshold, so it only displays a result when it’s more certain of the classification.
+4. Fine-tune the model’s confidence threshold, so it only displays a result when it’s more certain of the classification.
+
+In my original mood classifier, I used teh teachable machine only. 
+
+Teachable Machine: 
+https://drive.google.com/file/d/1ajUuuafQuHsWVKmPM3AxJsCIZDpbqAie/view?usp=drive_link
+
+However, sometimes the classifier will be incorrect. It can be due small movemnets of the face, or lighting differences. So, I added the moondream model as well. This way, the mood classifier would depend on the teachable machine and the moondream model. 
+
+See 'tml_moondream_combo.py' code .
+
+However, this was not a great idea. The teachable machine gives very fast output and moondream gives a very slow response. So, it took a lot of time for the model to determine whether I am happy or sad. 
+
+See video of teachable machnne + moondream Mood classifier: 
+https://drive.google.com/file/d/1cLxMagpOEiphYt4aupipuZVijPmOLyN7/view?usp=drive_link
+
 
 ### Part D
 ### Characterize your own Observant system
@@ -138,17 +154,34 @@ Fine-tune the model’s confidence threshold, so it only displays a result when 
 Now that you have experimented with one or more of these sense-making systems **characterize their behavior**.
 During the lecture, we mentioned questions to help characterize a material:
 * What can you use X for?
+
+his system is built for real-time, expressive interaction. Its purpose is to create a tight feedback loop between the user's emotion and a digital output. It's not for deep analysis, but for playful, immediate applications like the Mood Board, a "Mood DJ" that plays music, or simple accessibility tools.
+
 * What is a good environment for X?
+
+A well-lit room where the user's face is clearly visible and front-facing.The background should be blank. The user should be alone and not in a crowd.
+
 * What is a bad environment for X?
+
+Low-light or strongly backlit environments (like sitting in front of a bright window).t's also bad if the user is at an angle, far away, or partially covering their face.
+
 * When will X break?
-* When it breaks how will X break?
-* What are other properties/behaviors of X?
+It breaks when it sees an expression it wasn't trained on (e.g., "surprise," "anger")It will misclassify it as "happy" or "sad."
+
 * How does X feel?
 
-**\*\*\*Include a short video demonstrating the answers to these questions.\*\*\***
+Currently, with just the mood classifier, it is boring. There needs to be some "interaction" after a mood is classified.
+
+
 
 ### Part 2.
 
 Following exploration and reflection from Part 1, finish building your interactive system, and demonstrate it in use with a video.
 
+The final version of my interactive system, uses a teachable machine to classify if I am happy or sad. Depending on my mood, it draws a picture for me. As my mood changes from happy to sad, the paint brush changes from rainbow to black. At the end, you are left with a painting of your feelings.
+
 **\*\*\*Include a short video demonstrating the finished result.\*\*\***
+
+You can see the final version here:
+
+https://drive.google.com/file/d/1qqGJ7YKL0pkyKUm6BsJv6BCjPN9Kjy0j/view?usp=drive_link
