@@ -10,26 +10,6 @@ Iqra Khan, Celeste Bisch(lb854@cornell.edu), Nana Takada(nt388@cornell.edu) , Ja
 ![alt text](image-1.png)
 ---
 
-### Deliverables
-
-Replace this README with your documentation:
-
-**1. Project Description**
--Our project is a shooting game where each Raspberry Pi is connected to a joystick. There are two teams—left and right—and multiple players can join either team. Each player starts with three lives; once a player is hit three times, they are eliminated. When all players on a team are eliminated, the game is over. Players can move freely within their team’s area.
-
-Each Raspberry Pi has a unique label (e.g., game/player1) and transmits its tilt movements and shooting actions (based on joystick clicks) via MQTT. The server receives and processes each player’s movement and shooting data.
-
-**2. Architecture Diagram**
-![Architecture Diagram](image-2.png)
-
-**3. Build Documentation**
-
-[Video Prototype](https://drive.google.com/file/d/1q2kW2iP4jFZXachqrEmqX1LXDZw4-zAk/view?usp=sharing)
-
-[Video of Prototype with Joystick](https://drive.google.com/file/d/1gfdvAMW0J8bkEe9sS9Wu_g4WxeiCa-Uz/view?usp=sharing)
-
-MQTT topics used: game/player1, game/player2, game/player3, game/player4
-
 # Multiplayer Shooting Game
 
 ## 1. Project Description
