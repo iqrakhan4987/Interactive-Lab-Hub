@@ -270,10 +270,10 @@ This is the biggest one. Right now, all the game logic, collision detection, and
 
 Our AI bots are very simple. They just move and shoot randomly. It would be a great improvement to make them "smarter"—for example, have them move with purpose, aim at opponents, and try to dodge bullets.
 
-### 3. True Team Play
+### 3. True Team Play ###
 
 The game is set up for teams (left vs. right) and we prevent friendly fire. However, the win condition is "last player standing." I would change the `checkWinner()` logic to be "last team standing" (e.g., "Team Blue Wins!") to make it a proper team-based game.
----
+
 
 
 ---
