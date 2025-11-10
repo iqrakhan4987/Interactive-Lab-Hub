@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MQTT Multiplayer Shooter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            overflow: hidden;
+        }
+        canvas {
+            background-color: #2a2a2a;
+            border-radius: 0.5rem;
+            border: 2px solid #444;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+
+    <div id="game-container" class="relative hidden w-full max-w-4xl p-4">
+        <canvas id="game-canvas" width="800" height="600"></canvas>
+        <div id="game-ui" class="absolute top-8 left-8 text-white">
+            <div class="bg-black bg-opacity-50 p-4 rounded">
+                <h2 class="text-xl font-bold mb-2">Players Connected</h2>
+                <div id="player-list" class="text-sm"></div>
+                <div class="mt-3 pt-3 border-t border-gray-600">
+                    <p class="text-xs text-gray-400">MQTT Status: <span id="mqtt-status">Disconnected</span></p>
+                </div>
+            </div>
+        </div>
+        <div id="game-over" class="absolute inset-0 hidden bg-black bg-opacity-75 flex flex-col items-center justify-center">
+            <h2 class="text-4xl font-bold text-white mb-4">Game Over!</h2>
+            <p id="winner-text" class="text-2xl text-white mb-8"></p>
+            <button id="restart-btn" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-6 rounded-lg text-xl">
+                Play Again
+            </button>
+        </div>
+    </div>
+
+    <div id="start-screen" class="absolute inset-0 flex flex-col items-center justify-center z-10">
+        <h1 class="text-5xl font-bold text-white mb-4">MQTT Multiplayer Shooter</h1>
+        <p class="text-gray-400 mb-8">Connect your Raspberry Pi joysticks to play!</p>
+        
+        <div class="bg-black bg-opacity-50 p-6 rounded-lg mb-8 max-w-md">
+            <h3 class="text-xl font-bold mb-3">MQTT Configuration</h3>
+            <div class="mb-3">
+                <label class="block text-sm mb-1">Broker Address:</label>
+                <input type="text" id="mqtt-broker" value="farlab.infosci.cornell.edu" 
+                    class="w-full px-3 py-2 bg-gray-700 rounded text-white">
+            </div>
+            <div class="mb-3">
+                <label class="block text-sm mb-1">Port:</label>
+                <input type="number" id="mqtt-port" value="8080" 
+                    class="w-full px-3 py-2 bg-gray-700 rounded text-white">
+            </div>
+            <div class="mb-3">
+                <label class="block text-sm mb-1">Topic:</label>
+                <input type="text" id="mqtt-topic" value="IDD/shooter/joystick" 
+                    class="w-full px-3 py-2 bg-gray-700 rounded text-white">
+            </div>
+            <div class="mb-3">
+                <label class="block text-sm mb-1">Username:</label>
+                <input type="text" id="mqtt-username" value="idd" 
+                    class="w-full px-3 py-2 bg-gray-700 rounded text-white">
+            </div>
+            <div class="mb-3">
+                <label class="block text-sm mb-1">Password:</label>
+                <input type="password" id="mqtt-password" value="device@theFarm" 
+                    class="w-full px-3 py-2 bg-gray-700 rounded text-white">
+            </div>
+        </div>
+        
+        <button id="start-game-btn" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 px-8 rounded-lg text-2xl shadow-lg transition duration-200">
+            Connect & Start Game
+        </button>
+    </div>
+
+    <script>
+        const startScreen = document.getElementById('start-screen');
+        const startGameBtn = document.getElementById('start-game-btn');
+        const gameContainer = document.getElementById('game-container');
+        const canvas = document.getElementById('game-canvas');
+        const ctx = canvas.getContext('2d');
+        const gameOverScreen = document.getElementById('game-over');
+        const winnerText = document.getElementById('winner-text');
+        const restartBtn = document.getElementById('restart-btn');
+        const mqttStatusEl = document.getElementById('mqtt-status');
+        const playerListEl = document.getElementById('player-list');
+
+        const MAX_HP = 5;
+        const PLAYER_SPEED = 3;
+        const BULLET_SPEED = 8;
+        const PLAYER_RADIUS = 10;
+        const BULLET_RADIUS = 4;
+        const PLAYER_TIMEOUT = 5000; // Remove player after 5s of no updates
+
+        const PLAYER_COLORS = [
+            "hsl(200, 100%, 70%)", // Blue
+            "hsl(100, 100%, 70%)", // Green
+            "hsl(300, 100%, 70%)", // Pink
+            "hsl(50, 100%, 70%)",  // Yellow
+            "hsl(0, 100%, 70%)",   // Red
+            "hsl(180, 100%, 70%)", // Cyan
+            "hsl(270, 100%, 70%)", // Purple
+            "hsl(30, 100%, 70%)"   // Orange
+        ];
+
+        let mqttClient = null;
+        let players = {};
+        let bullets = [];
+        let gameRunning = false;
+        let colorIndex = 0;
+
+        function setupMQTT() {
+            const broker = document.getElementById('mqtt-broker').value;
+            const port = parseInt(document.getElementById('mqtt-port').value);
+            const topic = document.getElementById('mqtt-topic').value;
+            const username = document.getElementById('mqtt-username').value;
+            const password = document.getElementById('mqtt-password').value;
+
+            const clientId = 'shooter_game_' + Math.random().toString(16).substr(2, 8);
+            
+            mqttClient = new Paho.MQTT.Client(broker, port, '/mqtt', clientId);
+
+            mqttClient.onConnectionLost = (response) => {
+                console.error('MQTT Connection lost:', response.errorMessage);
+                mqttStatusEl.textContent = 'Disconnected';
+                mqttStatusEl.className = 'text-red-400';
+            };
+
+            mqttClient.onMessageArrived = (message) => {
+                try {
+                    const data = JSON.parse(message.payloadString);
+                    handleJoystickData(data);
+                } catch (e) {
+                    console.error('Error parsing message:', e);
+                }
+            };
+
+            const connectOptions = {
+                userName: username,
+                password: password,
+                useSSL: false,
+                onSuccess: () => {
+                    console.log('Connected to MQTT broker');
+                    mqttStatusEl.textContent = 'Connected';
+                    mqttStatusEl.className = 'text-green-400';
+                    
+                    mqttClient.subscribe(topic);
+                    console.log('Subscribed to:', topic);
+                    
+                    startGame();
+                },
+                onFailure: (error) => {
+                    console.error('MQTT Connection failed:', error);
+                    mqttStatusEl.textContent = 'Connection Failed';
+                    mqttStatusEl.className = 'text-red-400';
+                    alert('Failed to connect to MQTT broker. Please check your settings.');
+                }
+            };
+
+            mqttClient.connect(connectOptions);
+        }
+
+        function handleJoystickData(data) {
+            if (!gameRunning) return;
+
+            const playerId = data.mac || data.ip || data.device_id;
+            if (!playerId) return;
+
+            const now = Date.now();
+
+            if (!players[playerId]) {
+                // New player joins
+                const spawnPoints = [
+                    {x: 100, y: 100},
+                    {x: 700, y: 100},
+                    {x: 100, y: 500},
+                    {x: 700, y: 500},
+                    {x: 400, y: 300},
+                    {x: 200, y: 300},
+                    {x: 600, y: 300},
+                    {x: 400, y: 150}
+                ];
+                
+                const numPlayers = Object.keys(players).length;
+                const spawn = spawnPoints[numPlayers % spawnPoints.length];
+                
+                players[playerId] = {
+                    playerId: playerId,
+                    x: spawn.x,
+                    y: spawn.y,
+                    hp: MAX_HP,
+                    isDead: false,
+                    color: PLAYER_COLORS[colorIndex % PLAYER_COLORS.length],
+                    angle: 0,
+                    lastUpdate: now,
+                    lastShot: 0
+                };
+                
+                colorIndex++;
+                console.log('New player joined:', playerId);
+                updatePlayerList();
+            }
+
+            const player = players[playerId];
+            if (player.isDead) return;
+
+            player.lastUpdate = now;
+
+            // Process joystick input
+            // Expecting data format: {x: -1 to 1, y: -1 to 1, button: true/false}
+            if (data.x !== undefined && data.y !== undefined) {
+                // Move player based on joystick
+                const moveX = data.x * PLAYER_SPEED;
+                const moveY = data.y * PLAYER_SPEED;
+                
+                player.x = Math.max(PLAYER_RADIUS, Math.min(canvas.width - PLAYER_RADIUS, player.x + moveX));
+                player.y = Math.max(PLAYER_RADIUS, Math.min(canvas.height - PLAYER_RADIUS, player.y + moveY));
+
+                // Update angle based on movement direction
+                if (Math.abs(moveX) > 0.1 || Math.abs(moveY) > 0.1) {
+                    player.angle = Math.atan2(moveY, moveX);
+                }
+            }
+
+            // Handle shooting
+            if (data.button && now - player.lastShot > 500) {
+                createBullet(player);
+                player.lastShot = now;
+            }
+        }
+
+        function createBullet(owner) {
+            const speed = BULLET_SPEED;
+            bullets.push({
+                x: owner.x + Math.cos(owner.angle) * PLAYER_RADIUS,
+                y: owner.y + Math.sin(owner.angle) * PLAYER_RADIUS,
+                vx: Math.cos(owner.angle) * speed,
+                vy: Math.sin(owner.angle) * speed,
+                ownerId: owner.playerId,
+                color: owner.color
+            });
+        }
+
+        function update() {
+            if (!gameRunning) return;
+
+            const now = Date.now();
+
+            // Remove inactive players
+            Object.keys(players).forEach(playerId => {
+                if (now - players[playerId].lastUpdate > PLAYER_TIMEOUT) {
+                    console.log('Removing inactive player:', playerId);
+                    delete players[playerId];
+                    updatePlayerList();
+                }
+            });
+
+            // Update bullets
+            bullets = bullets.filter(bullet => {
+                bullet.x += bullet.vx;
+                bullet.y += bullet.vy;
+
+                if (bullet.x < 0 || bullet.x > canvas.width || bullet.y < 0 || bullet.y > canvas.height) {
+                    return false;
+                }
+
+                // Check collision with players
+                for (let player of Object.values(players)) {
+                    if (player.isDead || player.playerId === bullet.ownerId) continue;
+
+                    const dx = bullet.x - player.x;
+                    const dy = bullet.y - player.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < PLAYER_RADIUS + BULLET_RADIUS) {
+                        player.hp--;
+                        if (player.hp <= 0) {
+                            player.isDead = true;
+                            checkGameOver();
+                        }
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+        }
+
+        function checkGameOver() {
+            const alivePlayers = Object.values(players).filter(p => !p.isDead);
+            if (alivePlayers.length === 1 && Object.keys(players).length > 1) {
+                gameRunning = false;
+                winnerText.textContent = `${alivePlayers[0].playerId.substring(0, 17)} wins!`;
+                gameOverScreen.classList.remove('hidden');
+            } else if (alivePlayers.length === 0 && Object.keys(players).length > 0) {
+                gameRunning = false;
+                winnerText.textContent = "Everyone died!";
+                gameOverScreen.classList.remove('hidden');
+            }
+        }
+
+        function updatePlayerList() {
+            const playerCount = Object.keys(players).length;
+            const aliveCount = Object.values(players).filter(p => !p.isDead).length;
+            
+            let html = `<p class="mb-2">Total: ${playerCount} | Alive: ${aliveCount}</p>`;
+            
+            Object.values(players).forEach(player => {
+                const status = player.isDead ? '💀' : '❤️'.repeat(player.hp);
+                const shortId = player.playerId.substring(0, 17);
+                html += `<div class="flex items-center mb-1">
+                    <div class="w-3 h-3 rounded-full mr-2" style="background-color: ${player.color}"></div>
+                    <span class="text-xs">${shortId}: ${status}</span>
+                </div>`;
+            });
+            
+            playerListEl.innerHTML = html;
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw bullets
+            bullets.forEach(bullet => {
+                ctx.fillStyle = bullet.color;
+                ctx.beginPath();
+                ctx.arc(bullet.x, bullet.y, BULLET_RADIUS, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            // Draw players
+            Object.values(players).forEach(player => {
+                if (player.isDead) {
+                    ctx.fillStyle = "#555";
+                    ctx.beginPath();
+                    ctx.arc(player.x, player.y, PLAYER_RADIUS, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = "red";
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(player.x - 7, player.y - 7);
+                    ctx.lineTo(player.x + 7, player.y + 7);
+                    ctx.moveTo(player.x + 7, player.y - 7);
+                    ctx.lineTo(player.x - 7, player.y + 7);
+                    ctx.stroke();
+                } else {
+                    ctx.fillStyle = player.color;
+                    ctx.beginPath();
+                    ctx.arc(player.x, player.y, PLAYER_RADIUS, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.strokeStyle = player.color;
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(player.x, player.y);
+                    ctx.lineTo(
+                        player.x + Math.cos(player.angle) * PLAYER_RADIUS * 1.5,
+                        player.y + Math.sin(player.angle) * PLAYER_RADIUS * 1.5
+                    );
+                    ctx.stroke();
+
+                    const hpPercent = player.hp / MAX_HP;
+                    const hpBarWidth = 30;
+                    
+                    ctx.fillStyle = "#555";
+                    ctx.fillRect(player.x - hpBarWidth / 2, player.y - 20, hpBarWidth, 4);
+                    
+                    ctx.fillStyle = hpPercent > 0.5 ? "#28a745" : (hpPercent > 0.25 ? "#ffc107" : "#dc3545");
+                    ctx.fillRect(player.x - hpBarWidth / 2, player.y - 20, hpBarWidth * hpPercent, 4);
+                }
+
+                ctx.fillStyle = "white";
+                ctx.font = "10px Inter";
+                ctx.textAlign = "center";
+                ctx.fillText(player.playerId.substring(0, 8), player.x, player.y - 28);
+            });
+        }
+
+        function gameLoop() {
+            update();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+
+        function startGame() {
+            players = {};
+            bullets = [];
+            gameRunning = true;
+            colorIndex = 0;
+            
+            startScreen.classList.add('hidden');
+            gameOverScreen.classList.add('hidden');
+            gameContainer.classList.remove('hidden');
+            
+            updatePlayerList();
+            gameLoop();
+        }
+
+        startGameBtn.addEventListener('click', setupMQTT);
+        
+        restartBtn.addEventListener('click', () => {
+            startGame();
+        });
+    </script>
+</body>
+</html>
