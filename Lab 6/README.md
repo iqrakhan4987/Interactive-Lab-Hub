@@ -255,5 +255,10 @@ Our AI bots are very simple. They just move and shoot randomly. It would be a gr
 The game is set up for teams (left vs. right) and we prevent friendly fire. However, the win condition is "last player standing." I would change the `checkWinner()` logic to be "last team standing" (e.g., "Team Blue Wins!") to make it a proper team-based game.
 
 
+**Distribution of Work**
+
+Nana worked on the initial server code on game folder for two players game
+Celest worked on the intial controller code on game folder
+Iqra worked on modifying the server code to the multiple players game
 
 ---
