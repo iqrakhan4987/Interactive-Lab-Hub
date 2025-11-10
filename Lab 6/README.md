@@ -204,63 +204,76 @@ Open your browser and navigate to:
 - What would they change?
 
 **5. Reflection**
-- What worked well?
-- Challenges with distributed interaction?
-- How did sensor events work?
-- What would you improve?
 
+## What Worked Well?
+
+### Decoupled Architecture
+
+The separation of concerns was very successful. Using MQTT as a central "event bus" was a great choice:
+
+- **`joystick.py`** did one thing well: read the hardware and publish data
+- **`game_server.py`** did one thing well: relay messages and manage player (bot) state
+- **`game.html`** did one thing well: render the game and listen for server events
+
+### AI Bot Takeover
+
+This was a huge success. The `game_server.py`'s ability to detect a disconnected player (based on a 5-second timeout) and spawn an AI bot in their place made the game incredibly resilient. It meant the game could continue uninterrupted even if a player's Raspberry Pi crashed or lost Wi-Fi.
+
+### Real-Time Feel
+
+The combination of MQTT and Socket.IO was fast enough for this game. The controls felt responsive because we were sending very small JSON payloads, and the client-side `moveToTarget()` function smoothed out the player movement.
+
+## Challenges with Distributed Interaction
+
+### Player Disconnection
+
+The main challenge was "What happens when a player just disappears?" We couldn't rely on a "disconnect" message, as a crash or Wi-Fi loss would send nothing. This was the entire motivation for the AI bot controller. We had to create a "heartbeat" system where the server expects a message every few seconds, and if it doesn't get one, it assumes the player is gone.
+
+### Latency
+
+The signal path is long: **Pi → Wi-Fi → MQTT Broker → Server → Socket.IO → Browser**
+
+We were worried this would feel laggy. We minimized this by keeping the MQTT payloads as tiny as possible (just `joy_x`, `joy_y`, `shoot`) and letting the client handle all the physics and rendering.
+
+### State Management
+
+Who is the "source of truth"? In our design, the `game.html` client holds the "true" game state (player health, bullet positions). The server is mostly "dumb" and just passes messages. This is simple, but it's also a weakness.
+
+
+##  Sensor Processing Pipeline
+
+Our "sensor" was the Qwiic joystick on the Raspberry Pi.
+
+### 1. Reading
+
+The `joystick.py` script runs an infinite loop that constantly reads the raw I2C data from the joystick for its X-axis, Y-axis, and button state.
+
+### 2. Normalizing
+
+It didn't send the raw `0-1024` values. It normalized the X/Y axis data into a simple `-1.0` to `1.0` range. This made it much easier for the game logic to process.
+
+### 3. Event Detection
+
+For shooting, it didn't just send "button is down." It specifically detected the transition from released (1) to pressed (0). This `check_shoot()` function ensured that one physical click resulted in one "shoot" event, preventing players from holding the button down to fire full-auto.
+
+### 4. Publishing
+
+It bundled this normalized data (`joy_x`, `joy_y`, `shoot`) into a JSON payload and published it to the player's specific MQTT topic (e.g., `IDD/game/player1`).
+
+## What Would You Improve?
+
+### 1. Authoritative Server
+
+This is the biggest one. Right now, all the game logic, collision detection, and health are handled in the `game.html` browser. A much more robust (and cheat-proof) design would be to make the `game_server.py` authoritative. The server would run the entire game simulation. The browser would just be a "dumb" renderer that draws what the server tells it. This would also solve the state management challenge.
+
+### 2. Smarter Bots
+
+Our AI bots are very simple. They just move and shoot randomly. It would be a great improvement to make them "smarter"—for example, have them move with purpose, aim at opponents, and try to dodge bullets.
+
+### 3. True Team Play
+
+The game is set up for teams (left vs. right) and we prevent friendly fire. However, the win condition is "last player standing." I would change the `checkWinner()` logic to be "last team standing" (e.g., "Team Blue Wins!") to make it a proper team-based game.
 ---
 
-## Code Files
-
-**Server files:**
-**Pi files:**
-**Web interface:**
 
 ---
-
-## Debugging Tools
-
-**MQTT Message Viewer:** `http://farlab.infosci.cornell.edu:5001`
-- See all MQTT messages in real-time
-- View topics and payloads
-- Helpful for debugging your own projects
-
-**Command line:**
-```bash
-# See all IDD messages
-mosquitto_sub -h farlab.infosci.cornell.edu -p 1883 -t "IDD/#" -u idd -P "device@theFarm"
-```
-
----
-
-## Troubleshooting
-
-**MQTT:** Broker `farlab.infosci.cornell.edu:1883`, user `idd`, pass `device@theFarm`
-
-**Sensor:** Check `i2cdetect -y 1`, APDS-9960 at `0x39`
-
-**Grid:** Verify server running, check MQTT in console, test with web controller
-
-**Pi venv:** Make sure to activate: `source .venv/bin/activate`
-
-
----
-
-## Submission Checklist
-
-Before submitting:
-- [ ] Delete prep/instructions above
-- [ ] Add YOUR project documentation
-- [ ] Include photos/videos/diagrams  
-- [ ] Document user testing with non-team members
-- [ ] Add reflection on learnings
-- [ ] List team names at top
-
-**Your README = story of what YOU built!**
-
----
-
-Resources: [MQTT Guide](https://www.hivemq.com/mqtt-essentials/) | [Paho Python](https://www.eclipse.org/paho/index.php?page=clients/python/docs/index.php) | [Flask-SocketIO](https://flask-socketio.readthedocs.io/)
-
-
