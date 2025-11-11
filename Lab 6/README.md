@@ -1,6 +1,6 @@
 # Distributed Interaction
 
-Iqra Khan, Celeste Bisch(lb854@cornell.edu), Nana Takada(nt388@cornell.edu) , Jaspreet Singh(jl4536@cornell.edu)
+Iqra Khan(ik368@cornell.edu) , Celeste Bisch(lb854@cornell.edu), Nana Takada(nt388@cornell.edu) , Jaspreet Singh(jl4536@cornell.edu)
 
 ## Part B: Collaborative Pixel Grid
 
