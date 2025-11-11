@@ -178,10 +178,20 @@ Open your browser and navigate to:
 
 **4. User Testing**
 - **Test with 2+ people NOT on your team**
-- Photos/video of use
-- What did they think before trying?
-- What surprised them?
-- What would they change?
+We tested with three people from the class.
+[video of final product + user study](https://drive.google.com/file/d/1TnAzbQIBP-7RIiOw5PKdG1k6p9cZIeOb/view?usp=sharing)
+
+**What did they think before trying?**
+
+Before using the game, we only explained that it was a shooting game. It seemed intuitive to them, so they immediately started playing without much instruction.
+
+**What surprised them?**
+
+They were unsure whether it was a team-based or individual game. They didn’t like that the shooting was only in one direction and wanted bi-directional shooting instead. They seemed to really enjoy playing and were surprised by how simple yet exciting the gameplay was. However, since there was no feedback or reaction when a player got shot, it was hard to tell when that happened.
+
+**What would they change?**
+
+We plan to make the shooting bi-directional. We will also add some form of feedback or reaction when a player is hit. One participant mentioned they didn’t like how the joystick lacked any physical feedback or output—it felt less engaging without it.
 
 **5. Reflection**
 
@@ -260,5 +270,5 @@ The game is set up for teams (left vs. right) and we prevent friendly fire. Howe
 Nana worked on the initial server code on game folder for two players game
 Celest worked on the intial controller code on game folder
 Iqra worked on modifying the server code to the multiple players game
-
+Jaspreet helped with troubleshooting issues.
 ---
