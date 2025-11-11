@@ -194,7 +194,6 @@ They were unsure whether it was a team-based or individual game. They didn’t l
 We plan to make the shooting bi-directional. We will also add some form of feedback or reaction when a player is hit. One participant mentioned they didn’t like how the joystick lacked any physical feedback or output—it felt less engaging without it.
 
 **5. Reflection**
-
 ## What Worked Well?
 
 ### Decoupled Architecture
