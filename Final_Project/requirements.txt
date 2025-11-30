@@ -1,0 +1,14 @@
+--- Hardware & Sensors ---
+
+pyserial
+adafruit-blinka
+adafruit-circuitpython-seesaw
+sparkfun-qwiic
+RPi.GPIO
+
+--- Audio & Voice Control ---
+
+numpy
+sounddevice
+pyaudio
+SpeechRecognition
