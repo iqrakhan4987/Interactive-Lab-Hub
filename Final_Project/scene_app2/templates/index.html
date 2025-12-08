@@ -1,0 +1,1921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LED Scene Studio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .scene-settings {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .setting-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        .setting-row label {
+            font-weight: 600;
+            color: #333;
+            min-width: 120px;
+        }
+
+        .setting-row input[type="text"],
+        .setting-row input[type="number"] {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toggle {
+            position: relative;
+            width: 50px;
+            height: 26px;
+            background: #ccc;
+            border-radius: 13px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .toggle.active {
+            background: #667eea;
+        }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        .toggle.active::after {
+            transform: translateX(24px);
+        }
+
+        .graph-container {
+            margin-bottom: 30px;
+        }
+
+        .graph-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .graph-title {
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .graph-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-small {
+            padding: 5px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-add {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-add:hover {
+            background: #218838;
+        }
+
+        .btn-remove {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-remove:hover {
+            background: #c82333;
+        }
+
+        .graph {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            cursor: crosshair;
+            overflow: hidden;
+        }
+
+        .graph svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .control-point {
+            cursor: move;
+        }
+
+        .control-point:hover {
+            r: 8;
+        }
+
+        .color-picker-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .color-picker-modal.active {
+            display: flex;
+        }
+
+        .color-picker-content {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 90%;
+        }
+
+        .color-picker-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .color-picker-header h3 {
+            margin: 0;
+            color: #333;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+
+        .close-btn:hover {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .time-slider-container {
+            margin-bottom: 25px;
+        }
+
+        .time-slider-container label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .time-display {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-left: 10px;
+            font-size: 14px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #ddd;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .color-gradient-picker {
+            width: 100%;
+            height: 300px;
+            border-radius: 12px;
+            position: relative;
+            cursor: crosshair;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .color-gradient-picker canvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+        }
+
+        .color-selector {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 3px solid white;
+            border-radius: 50%;
+            pointer-events: none;
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.3), 0 2px 5px rgba(0,0,0,0.3);
+            transform: translate(-50%, -50%);
+        }
+
+        .hue-slider-container {
+            margin-bottom: 25px;
+        }
+
+        .hue-slider {
+            width: 100%;
+            height: 30px;
+            border-radius: 15px;
+            background: linear-gradient(to right, 
+                #ff0000 0%, #ffff00 16.66%, #00ff00 33.33%, 
+                #00ffff 50%, #0000ff 66.66%, #ff00ff 83.33%, #ff0000 100%);
+            position: relative;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .current-color-display {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .current-color-box {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            border: 3px solid #ddd;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .color-info {
+            flex: 1;
+        }
+
+        .color-info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .color-info-row span:first-child {
+            color: #666;
+            font-weight: 600;
+        }
+
+        .color-info-row span:last-child {
+            color: #333;
+            font-family: 'Courier New', monospace;
+        }
+
+        .picker-done-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .picker-done-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .status {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            display: none;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            display: block;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            display: block;
+        }
+
+        .saved-scenes {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .saved-scenes h2 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 1.3em;
+        }
+
+        .scene-list {
+            display: grid;
+            gap: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .scene-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.2s;
+        }
+
+        .scene-item:hover {
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .scene-info {
+            flex: 1;
+        }
+
+        .scene-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .scene-details {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .scene-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+            background: #f0f0f0;
+        }
+
+        .btn-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .btn-load {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .btn-load:hover {
+            background: #138496;
+        }
+
+        .btn-play {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-play:hover {
+            background: #218838;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #c82333;
+        }
+
+        .voice-control {
+            text-align: center;
+            margin-top: 20px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);
+        }
+
+        .voice-control h3 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .voice-btn {
+            padding: 20px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            background: white;
+            color: #f5576c;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .voice-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .voice-btn.listening {
+            background: #ff4444;
+            color: white;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .voice-status {
+            margin-top: 15px;
+            color: white;
+            font-weight: 500;
+            min-height: 24px;
+        }
+
+        .empty-scenes {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .party-mode {
+            background: linear-gradient(135deg, #ff6b6b 0%, #feca57 50%, #48dbfb 100%);
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .party-mode h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .party-controls {
+            display: grid;
+            gap: 20px;
+            background: rgba(255,255,255,0.95);
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        .party-option {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .party-option label {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .mode-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .mode-btn {
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .mode-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .mode-btn.active {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        .mode-btn.rainbow {
+            background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb);
+            color: white;
+            border: none;
+        }
+
+        .mode-btn.rainbow.active {
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .mode-btn.pulse {
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+            color: white;
+            border: none;
+        }
+
+        .mode-btn.spectrum {
+            background: linear-gradient(90deg, #ff6b6b, #48dbfb);
+            color: white;
+            border: none;
+        }
+
+        .sensitivity-control {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .sensitivity-value {
+            text-align: center;
+            font-weight: 600;
+            color: #667eea;
+            font-size: 18px;
+        }
+
+        .party-start-btn {
+            padding: 18px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
+        }
+
+        .party-start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(245, 87, 108, 0.6);
+        }
+
+        .party-start-btn.active {
+            background: #dc3545;
+            animation: pulse 1.5s infinite;
+        }
+
+        .spotify-results {
+            max-height: 400px;
+            overflow-y: auto;
+            display: grid;
+            gap: 10px;
+        }
+
+        .track-item {
+            display: flex;
+            gap: 15px;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.2s;
+            cursor: pointer;
+            align-items: center;
+        }
+
+        .track-item:hover {
+            border-color: #1DB954;
+            transform: translateX(5px);
+        }
+
+        .track-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 6px;
+            object-fit: cover;
+            background: #f0f0f0;
+        }
+
+        .track-info {
+            flex: 1;
+        }
+
+        .track-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .track-artist {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .track-duration {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .play-icon {
+            width: 40px;
+            height: 40px;
+            background: #1DB954;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .no-preview {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .no-preview:hover {
+            transform: none;
+            border-color: #e0e0e0;
+        }
+
+        .color-preview {
+            width: 100%;
+            height: 60px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border: 2px solid #ddd;
+            transition: all 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌈 LED Scene Studio</h1>
+        <p class="subtitle">Create custom lighting scenes with precise control</p>
+
+        <!-- Saved Scenes Section -->
+        <div class="saved-scenes">
+            <h2>💾 Saved Scenes</h2>
+            <div class="scene-list" id="sceneList">
+                <div class="empty-scenes">No saved scenes yet. Create and save your first scene!</div>
+            </div>
+        </div>
+
+        <!-- Voice Control Section -->
+        <div class="voice-control">
+            <h3>🎤 Voice Control</h3>
+            <button class="voice-btn" id="voiceBtn" onclick="toggleVoiceControl()">
+                🎙️ Press to Speak
+            </button>
+            <div class="voice-status" id="voiceStatus"></div>
+        </div>
+
+        <!-- Party Mode Section -->
+        <div class="party-mode">
+            <h2>🎉 PARTY MODE - Music Reactive LEDs</h2>
+            
+            <!-- Upload Your Own Music Section -->
+            <div class="party-controls" style="margin-bottom: 20px; border: 3px solid #ff6b6b;">
+                <h3 style="margin-bottom: 15px; color: #333;">📁 Upload Your Own Music (RECOMMENDED!)</h3>
+                <p style="color: #666; margin-bottom: 15px; font-size: 14px;">
+                    Upload MP3, WAV, M4A, or OGG files to play FULL songs with LED visualization
+                </p>
+                
+                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <input type="file" id="musicFile" accept=".mp3,.wav,.m4a,.ogg" 
+                           style="flex: 1; padding: 12px; border: 2px solid #ddd; border-radius: 8px;">
+                    <button onclick="uploadMusic()" 
+                            style="padding: 12px 30px; background: #ff6b6b; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                        Upload
+                    </button>
+                </div>
+                
+                <div id="uploadedMusicList" class="spotify-results"></div>
+            </div>
+            
+            <!-- Spotify Search Section -->
+            <div class="party-controls" style="margin-bottom: 20px;">
+                <h3 style="margin-bottom: 15px; color: #333;">🎵 Or Search Spotify (30s Previews Only)</h3>
+                <p style="color: #666; margin-bottom: 10px; font-size: 13px;">
+                    ⚠️ Only songs with previews will appear. Many songs don't have previews available.
+                </p>
+                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <input type="text" id="spotifySearch" placeholder="Search for songs with previews..." 
+                           style="flex: 1; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 14px;">
+                    <button onclick="searchSpotify()" 
+                            style="padding: 12px 30px; background: #1DB954; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                        Search
+                    </button>
+                </div>
+                
+                <div id="spotifyResults" class="spotify-results"></div>
+            </div>
+            
+            <!-- Microphone Mode Section -->
+            <div class="party-controls">
+                <h3 style="margin-bottom: 15px; color: #333;">🎤 Or Use Microphone Mode</h3>
+                
+                <div class="party-option">
+                    <label>Color Mode</label>
+                    <div class="mode-buttons">
+                        <button class="mode-btn rainbow active" data-mode="rainbow" onclick="selectMode('rainbow')">
+                            🌈 Rainbow<br><small>Cycling Colors</small>
+                        </button>
+                        <button class="mode-btn pulse" data-mode="pulse" onclick="selectMode('pulse')">
+                            💙 Pulse<br><small>Single Color</small>
+                        </button>
+                        <button class="mode-btn spectrum" data-mode="spectrum" onclick="selectMode('spectrum')">
+                            🎵 Spectrum<br><small>Bass to Treble</small>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="party-option">
+                    <label>Sensitivity</label>
+                    <div class="sensitivity-control">
+                        <input type="range" id="sensitivitySlider" min="5" max="50" value="20" step="1">
+                        <div class="sensitivity-value" id="sensitivityValue">20</div>
+                    </div>
+                </div>
+
+                <button class="party-start-btn" id="partyBtn" onclick="togglePartyMode()">
+                    🎵 START MICROPHONE MODE
+                </button>
+            </div>
+        </div>
+
+        <div class="scene-settings">
+            <div class="setting-row">
+                <label>Scene Name:</label>
+                <input type="text" id="sceneName" value="My Scene" placeholder="Enter scene name">
+            </div>
+            <div class="setting-row">
+                <label>Duration (minutes):</label>
+                <input type="number" id="duration" value="10" min="1" max="1440">
+            </div>
+            <div class="setting-row">
+                <label>Loop Scene:</label>
+                <div class="toggle-container">
+                    <div class="toggle" id="loopToggle" onclick="toggleLoop()">
+                    </div>
+                    <span id="loopText">Off</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="graph-container">
+            <div class="graph-header">
+                <span class="graph-title">🎨 Color (Hue)</span>
+                <div class="graph-buttons">
+                    <button class="btn-small btn-add" onclick="addPoint('hue')">+ Add Point</button>
+                    <button class="btn-small btn-remove" onclick="removeLastPoint('hue')">- Remove</button>
+                </div>
+            </div>
+            <div class="graph" id="hueGraph">
+                <svg id="hueSvg"></svg>
+            </div>
+        </div>
+
+        <!-- Color Picker Modal -->
+        <div class="color-picker-modal" id="colorPickerModal">
+            <div class="color-picker-content">
+                <div class="color-picker-header">
+                    <h3>Editing Color Point #<span id="editingPointNum">1</span></h3>
+                    <button class="close-btn" onclick="closeColorPicker()">✕</button>
+                </div>
+
+                <div class="time-slider-container">
+                    <label>
+                        Time (Minutes)
+                        <span class="time-display" id="timeDisplay">0.00</span>
+                    </label>
+                    <input type="range" id="timeSlider" min="0" max="10" step="0.01" value="0">
+                </div>
+
+                <div class="current-color-display">
+                    <div class="current-color-box" id="currentColorBox"></div>
+                    <div class="color-info">
+                        <div class="color-info-row">
+                            <span>Hue:</span>
+                            <span id="hueValue">0°</span>
+                        </div>
+                        <div class="color-info-row">
+                            <span>RGB:</span>
+                            <span id="rgbValue">rgb(255, 0, 0)</span>
+                        </div>
+                        <div class="color-info-row">
+                            <span>Hex:</span>
+                            <span id="hexValue">#FF0000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <label style="display: block; font-weight: 600; margin-bottom: 10px; color: #333;">
+                    Value Setting
+                </label>
+                <div class="color-gradient-picker" id="colorGradientPicker">
+                    <canvas id="colorCanvas" width="400" height="300"></canvas>
+                    <div class="color-selector" id="colorSelector"></div>
+                </div>
+
+                <div class="hue-slider-container">
+                    <label style="display: block; font-weight: 600; margin-bottom: 10px; color: #333;">
+                        Hue Slider
+                    </label>
+                    <div class="hue-slider" id="hueSlider"></div>
+                </div>
+
+                <button class="picker-done-btn" onclick="applyColorPoint()">✓ Done</button>
+            </div>
+        </div>
+
+        <div class="graph-container">
+            <div class="graph-header">
+                <span class="graph-title">💡 Brightness</span>
+                <div class="graph-buttons">
+                    <button class="btn-small btn-add" onclick="addPoint('brightness')">+ Add Point</button>
+                    <button class="btn-small btn-remove" onclick="removeLastPoint('brightness')">- Remove</button>
+                </div>
+            </div>
+            <div class="graph" id="brightnessGraph">
+                <svg id="brightnessSvg"></svg>
+            </div>
+        </div>
+
+        <div class="graph-container">
+            <div class="graph-header">
+                <span class="graph-title">🔥 Visual Intensity</span>
+                <div class="graph-buttons">
+                    <button class="btn-small btn-add" onclick="addPoint('intensity')">+ Add Point</button>
+                    <button class="btn-small btn-remove" onclick="removeLastPoint('intensity')">- Remove</button>
+                </div>
+            </div>
+            <div class="graph" id="intensityGraph">
+                <svg id="intensitySvg"></svg>
+            </div>
+        </div>
+
+        <div class="color-preview" id="colorPreview"></div>
+
+        <div class="controls">
+            <button class="btn btn-primary" onclick="saveScene()">💾 Save Scene</button>
+            <button class="btn btn-primary" onclick="startScene()">▶ Start Scene</button>
+            <button class="btn btn-secondary" onclick="stopScene()">⏹ Stop</button>
+        </div>
+
+        <div class="status" id="status"></div>
+    </div>
+
+    <script>
+        // Scene data structure
+        let sceneData = {
+            hue_points: [{time: 0, value: 0}, {time: 10, value: 255}],
+            brightness_points: [{time: 0, value: 255}, {time: 10, value: 128}],
+            intensity_points: [{time: 0, value: 255}, {time: 10, value: 255}]
+        };
+
+        let loopEnabled = false;
+        let draggedPoint = null;
+        let dragType = null;
+        let editingColorPoint = null;
+        let currentHue = 0;
+        let currentSaturation = 100;
+        let currentLightness = 50;
+        let recognition = null;
+        let isListening = false;
+        let partyModeActive = false;
+        let selectedMode = 'rainbow';
+
+        // Party Mode Functions
+        function selectMode(mode) {
+            selectedMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-mode="${mode}"]`).classList.add('active');
+        }
+
+        async function togglePartyMode() {
+            const btn = document.getElementById('partyBtn');
+            
+            if (partyModeActive) {
+                // Stop party mode
+                try {
+                    const response = await fetch('/api/music/stop', {
+                        method: 'POST'
+                    });
+                    const result = await response.json();
+                    
+                    partyModeActive = false;
+                    btn.classList.remove('active');
+                    btn.textContent = '🎵 START PARTY MODE';
+                    showStatus('Party mode stopped', 'success');
+                } catch (error) {
+                    showStatus('Error stopping party mode', 'error');
+                }
+            } else {
+                // Start party mode
+                const sensitivity = parseFloat(document.getElementById('sensitivitySlider').value);
+                
+                try {
+                    const response = await fetch('/api/music/start', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({
+                            sensitivity: sensitivity,
+                            color_mode: selectedMode
+                        })
+                    });
+                    const result = await response.json();
+                    
+                    if (result.status === 'success') {
+                        partyModeActive = true;
+                        btn.classList.add('active');
+                        btn.textContent = '⏹ STOP PARTY MODE';
+                        showStatus(result.message, 'success');
+                    }
+                } catch (error) {
+                    showStatus('Error starting party mode', 'error');
+                }
+            }
+        }
+
+        // Update sensitivity display
+        document.getElementById('sensitivitySlider').addEventListener('input', function(e) {
+            document.getElementById('sensitivityValue').textContent = e.target.value;
+        });
+
+        // Spotify Functions
+        async function searchSpotify() {
+            const query = document.getElementById('spotifySearch').value;
+            if (!query) return;
+
+            try {
+                const response = await fetch('/api/spotify/search', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ query: query })
+                });
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    displaySpotifyResults(result.tracks);
+                } else {
+                    showStatus(result.message, 'error');
+                }
+            } catch (error) {
+                showStatus('Spotify search failed', 'error');
+            }
+        }
+
+        function displaySpotifyResults(tracks) {
+            const resultsDiv = document.getElementById('spotifyResults');
+            
+            if (tracks.length === 0) {
+                resultsDiv.innerHTML = '<div style="text-align: center; padding: 20px; color: #999;">No results found</div>';
+                return;
+            }
+
+            resultsDiv.innerHTML = tracks.map(track => {
+                const duration = Math.floor(track.duration_ms / 1000);
+                const minutes = Math.floor(duration / 60);
+                const seconds = duration % 60;
+                const hasPreview = track.preview_url !== null;
+
+                return `
+                    <div class="track-item ${!hasPreview ? 'no-preview' : ''}" 
+                         ${hasPreview ? `onclick="playSpotifyTrack('${track.preview_url}', '${track.name.replace(/'/g, "\\'")}')"` : ''}>
+                        <img src="${track.image || 'https://via.placeholder.com/60'}" 
+                             alt="${track.name}" class="track-image">
+                        <div class="track-info">
+                            <div class="track-name">${track.name}</div>
+                            <div class="track-artist">${track.artist}</div>
+                            <div class="track-duration">${minutes}:${seconds.toString().padStart(2, '0')} ${hasPreview ? '(30s preview)' : '(No preview)'}</div>
+                        </div>
+                        ${hasPreview ? '<div class="play-icon">▶</div>' : '<div class="play-icon" style="background: #ccc;">✕</div>'}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function playSpotifyTrack(previewUrl, trackName) {
+            if (partyModeActive) {
+                await togglePartyMode();
+            }
+
+            const sensitivity = parseFloat(document.getElementById('sensitivitySlider').value);
+
+            try {
+                const response = await fetch('/api/spotify/play', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        preview_url: previewUrl,
+                        sensitivity: sensitivity,
+                        color_mode: selectedMode
+                    })
+                });
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    showStatus(`Playing: ${trackName}`, 'success');
+                } else {
+                    showStatus(result.message, 'error');
+                }
+            } catch (error) {
+                showStatus('Failed to play track', 'error');
+            }
+        }
+
+        // Allow Enter key for search
+        document.getElementById('spotifySearch').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchSpotify();
+            }
+        });
+
+        // MP3 Upload Functions
+        async function uploadMusic() {
+            const fileInput = document.getElementById('musicFile');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                showStatus('Please select a file', 'error');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                showStatus('Uploading...', 'success');
+                const response = await fetch('/api/music/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    showStatus(result.message, 'success');
+                    fileInput.value = ''; // Clear file input
+                    loadUploadedMusic();
+                } else {
+                    showStatus(result.message, 'error');
+                }
+            } catch (error) {
+                showStatus('Upload failed', 'error');
+            }
+        }
+
+        async function loadUploadedMusic() {
+            try {
+                const response = await fetch('/api/music/list');
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    displayUploadedMusic(result.files);
+                }
+            } catch (error) {
+                console.error('Failed to load uploaded music:', error);
+            }
+        }
+
+        function displayUploadedMusic(files) {
+            const listDiv = document.getElementById('uploadedMusicList');
+            
+            if (files.length === 0) {
+                listDiv.innerHTML = '<div style="text-align: center; padding: 20px; color: #999;">No files uploaded yet</div>';
+                return;
+            }
+
+            listDiv.innerHTML = files.map(file => {
+                const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
+                const uploadDate = new Date(file.uploaded).toLocaleDateString();
+
+                return `
+                    <div class="track-item" onclick="playUploadedFile('${file.filename}')">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px;">
+                            🎵
+                        </div>
+                        <div class="track-info">
+                            <div class="track-name">${file.filename}</div>
+                            <div class="track-artist">${sizeMB} MB • Uploaded ${uploadDate}</div>
+                        </div>
+                        <div class="play-icon">▶</div>
+                        <button onclick="event.stopPropagation(); deleteUploadedFile('${file.filename}')" 
+                                style="padding: 8px 12px; background: #dc3545; color: white; border: none; border-radius: 6px; cursor: pointer; margin-left: 10px;">
+                            🗑️
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function playUploadedFile(filename) {
+            if (partyModeActive) {
+                await togglePartyMode();
+            }
+
+            const sensitivity = parseFloat(document.getElementById('sensitivitySlider').value);
+
+            try {
+                const response = await fetch('/api/music/play-file', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        filename: filename,
+                        sensitivity: sensitivity,
+                        color_mode: selectedMode
+                    })
+                });
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    showStatus(result.message, 'success');
+                } else {
+                    showStatus(result.message, 'error');
+                }
+            } catch (error) {
+                showStatus('Failed to play file', 'error');
+            }
+        }
+
+        async function deleteUploadedFile(filename) {
+            if (!confirm(`Delete ${filename}?`)) return;
+
+            try {
+                const response = await fetch(`/api/music/delete-file?filename=${encodeURIComponent(filename)}`, {
+                    method: 'DELETE'
+                });
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    showStatus('File deleted', 'success');
+                    loadUploadedMusic();
+                } else {
+                    showStatus(result.message, 'error');
+                }
+            } catch (error) {
+                showStatus('Failed to delete file', 'error');
+            }
+        }
+
+        // Initialize Speech Recognition
+        function initSpeechRecognition() {
+            if ('webkitSpeechRecognition' in window) {
+                recognition = new webkitSpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = 'en-US';
+
+                recognition.onstart = function() {
+                    isListening = true;
+                    document.getElementById('voiceBtn').classList.add('listening');
+                    document.getElementById('voiceStatus').textContent = '🎤 Listening...';
+                };
+
+                recognition.onresult = function(event) {
+                    const transcript = event.results[0][0].transcript.toLowerCase().trim();
+                    document.getElementById('voiceStatus').textContent = `Heard: "${transcript}"`;
+                    
+                    // Try to match scene name
+                    handleVoiceCommand(transcript);
+                };
+
+                recognition.onerror = function(event) {
+                    console.error('Speech recognition error:', event.error);
+                    document.getElementById('voiceStatus').textContent = '❌ Error: ' + event.error;
+                    isListening = false;
+                    document.getElementById('voiceBtn').classList.remove('listening');
+                };
+
+                recognition.onend = function() {
+                    isListening = false;
+                    document.getElementById('voiceBtn').classList.remove('listening');
+                };
+            } else {
+                document.getElementById('voiceStatus').textContent = '❌ Speech recognition not supported';
+            }
+        }
+
+        function toggleVoiceControl() {
+            if (!recognition) {
+                initSpeechRecognition();
+            }
+            
+            if (isListening) {
+                recognition.stop();
+            } else {
+                recognition.start();
+            }
+        }
+
+        async function handleVoiceCommand(transcript) {
+            // Common trigger phrases
+            const triggers = ['play', 'start', 'run', 'activate'];
+            
+            // Extract scene name
+            let sceneName = transcript;
+            for (const trigger of triggers) {
+                if (transcript.includes(trigger)) {
+                    sceneName = transcript.replace(trigger, '').trim();
+                    break;
+                }
+            }
+            
+            // Try to start the scene
+            try {
+                const response = await fetch(`/api/start-by-name/${encodeURIComponent(sceneName)}`, {
+                    method: 'POST'
+                });
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    showStatus(result.message, 'success');
+                    document.getElementById('voiceStatus').textContent = '✅ ' + result.message;
+                } else {
+                    document.getElementById('voiceStatus').textContent = '❌ Scene not found';
+                    showStatus(`Scene "${sceneName}" not found`, 'error');
+                }
+            } catch (error) {
+                document.getElementById('voiceStatus').textContent = '❌ Error starting scene';
+                showStatus('Error starting scene', 'error');
+            }
+        }
+
+        // Load saved scenes
+        async function loadSavedScenes() {
+            try {
+                const response = await fetch('/api/scenes');
+                const scenes = await response.json();
+                
+                const sceneList = document.getElementById('sceneList');
+                
+                if (scenes.length === 0) {
+                    sceneList.innerHTML = '<div class="empty-scenes">No saved scenes yet. Create and save your first scene!</div>';
+                    return;
+                }
+                
+                sceneList.innerHTML = scenes.map(scene => `
+                    <div class="scene-item">
+                        <div class="scene-info">
+                            <div class="scene-name">${scene.name}</div>
+                            <div class="scene-details">
+                                ${scene.duration} min ${scene.loop ? '• Loop' : ''} • ${scene.created ? new Date(scene.created).toLocaleDateString() : 'Unknown'}
+                            </div>
+                        </div>
+                        <div class="scene-actions">
+                            <button class="btn-icon btn-load" onclick="loadScene('${scene.filename}')" title="Load">📁</button>
+                            <button class="btn-icon btn-play" onclick="playScene('${scene.filename}')" title="Play">▶️</button>
+                            <button class="btn-icon btn-delete" onclick="deleteScene('${scene.filename}')" title="Delete">🗑️</button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading scenes:', error);
+            }
+        }
+
+        async function loadScene(filename) {
+            try {
+                const response = await fetch(`/api/scene/${filename}`);
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    const scene = result.scene;
+                    
+                    // Load scene data
+                    document.getElementById('sceneName').value = scene.name;
+                    document.getElementById('duration').value = scene.duration;
+                    loopEnabled = scene.loop;
+                    document.getElementById('loopToggle').classList.toggle('active', loopEnabled);
+                    document.getElementById('loopText').textContent = loopEnabled ? 'On' : 'Off';
+                    
+                    sceneData.hue_points = scene.hue_points;
+                    sceneData.brightness_points = scene.brightness_points;
+                    sceneData.intensity_points = scene.intensity_points;
+                    
+                    initGraphs();
+                    showStatus(`Loaded scene: ${scene.name}`, 'success');
+                }
+            } catch (error) {
+                showStatus('Error loading scene', 'error');
+            }
+        }
+
+        async function playScene(filename) {
+            try {
+                const response = await fetch(`/api/scene/${filename}`);
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    const scene = result.scene;
+                    const startResponse = await fetch('/api/start', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify(scene)
+                    });
+                    const startResult = await startResponse.json();
+                    showStatus(`Playing: ${scene.name}`, 'success');
+                }
+            } catch (error) {
+                showStatus('Error playing scene', 'error');
+            }
+        }
+
+        async function deleteScene(filename) {
+            if (!confirm('Are you sure you want to delete this scene?')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/scene/delete/${filename}`, {
+                    method: 'DELETE'
+                });
+                const result = await response.json();
+                showStatus(result.message, result.status === 'success' ? 'success' : 'error');
+                loadSavedScenes();
+            } catch (error) {
+                showStatus('Error deleting scene', 'error');
+            }
+        }
+
+        async function saveScene() {
+            const name = document.getElementById('sceneName').value;
+            const duration = getDuration();
+
+            if (!name || name.trim() === '') {
+                showStatus('Please enter a scene name', 'error');
+                return;
+            }
+
+            const scene = {
+                name: name,
+                duration: duration,
+                loop: loopEnabled,
+                hue_points: sceneData.hue_points,
+                brightness_points: sceneData.brightness_points,
+                intensity_points: sceneData.intensity_points
+            };
+
+            try {
+                const response = await fetch('/api/scene/save', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(scene)
+                });
+                const result = await response.json();
+                showStatus(result.message, result.status === 'success' ? 'success' : 'error');
+                loadSavedScenes();
+            } catch (error) {
+                showStatus('Error saving scene', 'error');
+            }
+        }
+
+        // Color Picker Functions
+        function openColorPicker(pointIndex) {
+            editingColorPoint = pointIndex;
+            const point = sceneData.hue_points[pointIndex];
+            
+            document.getElementById('editingPointNum').textContent = pointIndex + 1;
+            document.getElementById('timeSlider').max = getDuration();
+            document.getElementById('timeSlider').value = point.time;
+            document.getElementById('timeDisplay').textContent = point.time.toFixed(2);
+            
+            // Set initial hue
+            currentHue = (point.value / 255) * 360;
+            currentSaturation = 100;
+            currentLightness = 50;
+            
+            drawColorGradient();
+            updateColorDisplay();
+            document.getElementById('colorPickerModal').classList.add('active');
+        }
+
+        function closeColorPicker() {
+            document.getElementById('colorPickerModal').classList.remove('active');
+            editingColorPoint = null;
+        }
+
+        function drawColorGradient() {
+            const canvas = document.getElementById('colorCanvas');
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+
+            // Draw saturation gradient (left to right) and lightness gradient (top to bottom)
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    const saturation = (x / width) * 100;
+                    const lightness = 100 - (y / height) * 100;
+                    ctx.fillStyle = `hsl(${currentHue}, ${saturation}%, ${lightness}%)`;
+                    ctx.fillRect(x, y, 1, 1);
+                }
+            }
+
+            // Update selector position
+            const selector = document.getElementById('colorSelector');
+            const selectorX = (currentSaturation / 100) * canvas.offsetWidth;
+            const selectorY = (1 - currentLightness / 100) * canvas.offsetHeight;
+            selector.style.left = selectorX + 'px';
+            selector.style.top = selectorY + 'px';
+        }
+
+        function updateColorDisplay() {
+            const hsl = `hsl(${currentHue}, ${currentSaturation}%, ${currentLightness}%)`;
+            document.getElementById('currentColorBox').style.background = hsl;
+            document.getElementById('hueValue').textContent = Math.round(currentHue) + '°';
+            
+            // Convert to RGB for display
+            const rgb = hslToRgb(currentHue / 360, currentSaturation / 100, currentLightness / 100);
+            document.getElementById('rgbValue').textContent = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+            document.getElementById('hexValue').textContent = rgbToHex(rgb.r, rgb.g, rgb.b);
+        }
+
+        function hslToRgb(h, s, l) {
+            let r, g, b;
+            if (s === 0) {
+                r = g = b = l;
+            } else {
+                const hue2rgb = (p, q, t) => {
+                    if (t < 0) t += 1;
+                    if (t > 1) t -= 1;
+                    if (t < 1/6) return p + (q - p) * 6 * t;
+                    if (t < 1/2) return q;
+                    if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                    return p;
+                };
+                const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                const p = 2 * l - q;
+                r = hue2rgb(p, q, h + 1/3);
+                g = hue2rgb(p, q, h);
+                b = hue2rgb(p, q, h - 1/3);
+            }
+            return {
+                r: Math.round(r * 255),
+                g: Math.round(g * 255),
+                b: Math.round(b * 255)
+            };
+        }
+
+        function rgbToHex(r, g, b) {
+            return '#' + [r, g, b].map(x => {
+                const hex = x.toString(16);
+                return hex.length === 1 ? '0' + hex : hex;
+            }).join('').toUpperCase();
+        }
+
+        function applyColorPoint() {
+            if (editingColorPoint !== null) {
+                const time = parseFloat(document.getElementById('timeSlider').value);
+                const hueValue = Math.round((currentHue / 360) * 255);
+                
+                sceneData.hue_points[editingColorPoint] = {
+                    time: time,
+                    value: hueValue
+                };
+                
+                drawGraph('hue', sceneData.hue_points, '#e74c3c');
+                closeColorPicker();
+            }
+        }
+
+        // Event Listeners for Color Picker
+        document.getElementById('colorGradientPicker').addEventListener('click', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            currentSaturation = (x / rect.width) * 100;
+            currentLightness = 100 - (y / rect.height) * 100;
+            
+            drawColorGradient();
+            updateColorDisplay();
+        });
+
+        document.getElementById('hueSlider').addEventListener('click', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            currentHue = (x / rect.width) * 360;
+            
+            drawColorGradient();
+            updateColorDisplay();
+        });
+
+        document.getElementById('timeSlider').addEventListener('input', function(e) {
+            document.getElementById('timeDisplay').textContent = parseFloat(e.target.value).toFixed(2);
+        });
+
+        // Initialize graphs
+        function initGraphs() {
+            drawGraph('hue', sceneData.hue_points, '#e74c3c');
+            drawGraph('brightness', sceneData.brightness_points, '#f39c12');
+            drawGraph('intensity', sceneData.intensity_points, '#3498db');
+            updateColorPreview();
+        }
+
+        function drawGraph(type, points, color) {
+            const svg = document.getElementById(type + 'Svg');
+            const graph = document.getElementById(type + 'Graph');
+            const width = graph.clientWidth;
+            const height = graph.clientHeight;
+
+            svg.innerHTML = '';
+
+            // Draw grid
+            for (let i = 0; i <= 4; i++) {
+                const y = (height / 4) * i;
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', 0);
+                line.setAttribute('y1', y);
+                line.setAttribute('x2', width);
+                line.setAttribute('y2', y);
+                line.setAttribute('stroke', '#e0e0e0');
+                line.setAttribute('stroke-width', 1);
+                svg.appendChild(line);
+            }
+
+            // Sort points by time
+            points.sort((a, b) => a.time - b.time);
+
+            // Draw line
+            const pathData = points.map((p, i) => {
+                const x = (p.time / getDuration()) * width;
+                const y = height - (p.value / 255) * height;
+                return `${i === 0 ? 'M' : 'L'} ${x} ${y}`;
+            }).join(' ');
+
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('d', pathData);
+            path.setAttribute('stroke', color);
+            path.setAttribute('stroke-width', 3);
+            path.setAttribute('fill', 'none');
+            svg.appendChild(path);
+
+            // Draw fill area
+            const fillPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            const fillData = pathData + ` L ${width} ${height} L 0 ${height} Z`;
+            fillPath.setAttribute('d', fillData);
+            fillPath.setAttribute('fill', color);
+            fillPath.setAttribute('opacity', '0.1');
+            svg.appendChild(fillPath);
+
+            // Draw points
+            points.forEach((p, i) => {
+                const x = (p.time / getDuration()) * width;
+                const y = height - (p.value / 255) * height;
+
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', x);
+                circle.setAttribute('cy', y);
+                circle.setAttribute('r', 6);
+                circle.setAttribute('fill', color);
+                circle.setAttribute('class', 'control-point');
+                circle.setAttribute('data-index', i);
+                circle.setAttribute('data-type', type);
+
+                circle.addEventListener('mousedown', startDrag);
+                
+                // Double-click on hue points opens color picker
+                if (type === 'hue') {
+                    circle.addEventListener('dblclick', (e) => {
+                        e.stopPropagation();
+                        openColorPicker(i);
+                    });
+                }
+                
+                svg.appendChild(circle);
+            });
+        }
+
+        function startDrag(e) {
+            draggedPoint = parseInt(e.target.getAttribute('data-index'));
+            dragType = e.target.getAttribute('data-type');
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', stopDrag);
+        }
+
+        function drag(e) {
+            if (draggedPoint === null) return;
+
+            const graph = document.getElementById(dragType + 'Graph');
+            const rect = graph.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const time = Math.max(0, Math.min(getDuration(), (x / rect.width) * getDuration()));
+            const value = Math.max(0, Math.min(255, 255 - (y / rect.height) * 255));
+
+            const points = sceneData[dragType + '_points'];
+            points[draggedPoint].time = time;
+            points[draggedPoint].value = value;
+
+            drawGraph(dragType, points, getColor(dragType));
+            updateColorPreview();
+        }
+
+        function stopDrag() {
+            draggedPoint = null;
+            dragType = null;
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('mouseup', stopDrag);
+        }
+
+        function addPoint(type) {
+            const duration = getDuration();
+            const points = sceneData[type + '_points'];
+            const newTime = duration / 2;
+            const newPoint = {time: newTime, value: 128};
+            points.push(newPoint);
+            drawGraph(type, points, getColor(type));
+            
+            // If adding a hue point, immediately open color picker for it
+            if (type === 'hue') {
+                openColorPicker(points.length - 1);
+            }
+        }
+
+        function removeLastPoint(type) {
+            const points = sceneData[type + '_points'];
+            if (points.length > 2) {
+                points.pop();
+                drawGraph(type, points, getColor(type));
+            }
+        }
+
+        function getColor(type) {
+            const colors = {hue: '#e74c3c', brightness: '#f39c12', intensity: '#3498db'};
+            return colors[type];
+        }
+
+        function getDuration() {
+            return parseInt(document.getElementById('duration').value);
+        }
+
+        function toggleLoop() {
+            loopEnabled = !loopEnabled;
+            const toggle = document.getElementById('loopToggle');
+            const text = document.getElementById('loopText');
+            toggle.classList.toggle('active');
+            text.textContent = loopEnabled ? 'On' : 'Off';
+        }
+
+        function updateColorPreview() {
+            const preview = document.getElementById('colorPreview');
+            const hue = sceneData.hue_points[0].value;
+            const brightness = (sceneData.brightness_points[0].value / 255) * 100;
+            preview.style.background = `hsl(${(hue / 255) * 360}, 100%, ${brightness}%)`;
+        }
+
+        async function startScene() {
+            const name = document.getElementById('sceneName').value;
+            const duration = getDuration();
+
+            // Stop party mode if running
+            if (partyModeActive) {
+                await togglePartyMode();
+            }
+
+            const scene = {
+                name: name,
+                duration: duration,
+                loop: loopEnabled,
+                hue_points: sceneData.hue_points,
+                brightness_points: sceneData.brightness_points,
+                intensity_points: sceneData.intensity_points
+            };
+
+            try {
+                const response = await fetch('/api/start', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(scene)
+                });
+                const result = await response.json();
+                showStatus(result.message, 'success');
+            } catch (error) {
+                showStatus('Error starting scene', 'error');
+            }
+        }
+
+        async function stopScene() {
+            // Stop party mode if active
+            if (partyModeActive) {
+                await togglePartyMode();
+            }
+            
+            try {
+                const response = await fetch('/api/stop', {method: 'POST'});
+                const result = await response.json();
+                showStatus(result.message, 'success');
+            } catch (error) {
+                showStatus('Error stopping scene', 'error');
+            }
+        }
+
+        function showStatus(message, type) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = `status ${type}`;
+            setTimeout(() => status.style.display = 'none', 3000);
+        }
+
+        // Update graphs when duration changes
+        document.getElementById('duration').addEventListener('change', () => {
+            initGraphs();
+        });
+
+        // Click to add point on graph
+        ['hueGraph', 'brightnessGraph', 'intensityGraph'].forEach(graphId => {
+            document.getElementById(graphId).addEventListener('click', (e) => {
+                if (e.target.tagName === 'circle') return;
+                
+                const type = graphId.replace('Graph', '');
+                const rect = e.currentTarget.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const time = (x / rect.width) * getDuration();
+                const value = 255 - (y / rect.height) * 255;
+
+                const newPoint = {time, value};
+                sceneData[type + '_points'].push(newPoint);
+                drawGraph(type, sceneData[type + '_points'], getColor(type));
+                
+                // If adding a hue point, open color picker
+                if (type === 'hue') {
+                    openColorPicker(sceneData.hue_points.length - 1);
+                }
+            });
+        });
+
+        // Initialize on load
+        initGraphs();
+        loadSavedScenes();
+        loadUploadedMusic();  // Load uploaded music files
+        initSpeechRecognition();
+    </script>
+</body>
+</html>
