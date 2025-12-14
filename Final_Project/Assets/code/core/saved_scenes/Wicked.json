@@ -1,0 +1,56 @@
+{
+  "name": "Wicked",
+  "duration": 4,
+  "loop": true,
+  "hue_points": [
+    {
+      "time": 0,
+      "value": 90
+    },
+    {
+      "time": 1,
+      "value": 90
+    },
+    {
+      "time": 2,
+      "value": 220
+    },
+    {
+      "time": 3,
+      "value": 220
+    },
+    {
+      "time": 4,
+      "value": 90
+    }
+  ],
+  "brightness_points": [
+    {
+      "time": 0,
+      "value": 200
+    },
+    {
+      "time": 2,
+      "value": 230
+    },
+    {
+      "time": 4,
+      "value": 200
+    }
+  ],
+  "intensity_points": [
+    {
+      "time": 0,
+      "value": 255
+    },
+    {
+      "time": 2,
+      "value": 240
+    },
+    {
+      "time": 4,
+      "value": 255
+    }
+  ],
+  "created": "2025-12-08T16:40:00"
+}

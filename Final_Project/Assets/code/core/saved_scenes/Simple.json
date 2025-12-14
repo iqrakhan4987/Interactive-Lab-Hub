@@ -1,0 +1,44 @@
+{
+  "name": "Simple",
+  "duration": 1,
+  "loop": false,
+  "hue_points": [
+    {
+      "time": 0,
+      "value": 0
+    },
+    {
+      "time": 0.0524390243902439,
+      "value": 193.8
+    },
+    {
+      "time": 0.801219512195122,
+      "value": 188.7
+    },
+    {
+      "time": 9.487804878048781,
+      "value": 240.975
+    }
+  ],
+  "brightness_points": [
+    {
+      "time": 0,
+      "value": 255
+    },
+    {
+      "time": 10,
+      "value": 128
+    }
+  ],
+  "intensity_points": [
+    {
+      "time": 0,
+      "value": 255
+    },
+    {
+      "time": 10,
+      "value": 255
+    }
+  ],
+  "created": "2025-12-08T16:06:23.768395"
+}

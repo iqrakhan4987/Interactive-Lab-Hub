@@ -1,0 +1,60 @@
+{
+  "name": "Deep Focus",
+  "duration": 2,
+  "loop": true,
+  "hue_points": [
+    {
+      "time": 0,
+      "value": 170
+    },
+    {
+      "time": 0.5,
+      "value": 180
+    },
+    {
+      "time": 1,
+      "value": 175
+    },
+    {
+      "time": 1.5,
+      "value": 185
+    },
+    {
+      "time": 2,
+      "value": 170
+    }
+  ],
+  "brightness_points": [
+    {
+      "time": 0,
+      "value": 200
+    },
+    {
+      "time": 0.8,
+      "value": 220
+    },
+    {
+      "time": 1.5,
+      "value": 210
+    },
+    {
+      "time": 2,
+      "value": 200
+    }
+  ],
+  "intensity_points": [
+    {
+      "time": 0,
+      "value": 240
+    },
+    {
+      "time": 1,
+      "value": 255
+    },
+    {
+      "time": 2,
+      "value": 240
+    }
+  ],
+  "created": "2025-12-08T00:00:00"
+}

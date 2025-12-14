@@ -1,0 +1,52 @@
+{
+  "name": "Halloween",
+  "duration": 2,
+  "loop": true,
+  "hue_points": [
+    {
+      "time": 0,
+      "value": 25
+    },
+    {
+      "time": 1,
+      "value": 30
+    },
+    {
+      "time": 2,
+      "value": 25
+    }
+  ],
+  "brightness_points": [
+    {
+      "time": 0,
+      "value": 255
+    },
+    {
+      "time": 0.4,
+      "value": 150
+    },
+    {
+      "time": 1,
+      "value": 10
+    },
+    {
+      "time": 1.6,
+      "value": 150
+    },
+    {
+      "time": 2,
+      "value": 255
+    }
+  ],
+  "intensity_points": [
+    {
+      "time": 0,
+      "value": 255
+    },
+    {
+      "time": 2,
+      "value": 255
+    }
+  ],
+  "created": "2025-12-08T16:40:00"
+}

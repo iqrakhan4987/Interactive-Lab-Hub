@@ -1,0 +1,72 @@
+{
+  "name": "WENDY",
+  "duration": 2,
+  "loop": true,
+  "hue_points": [
+    {
+      "time": 0,
+      "value": 0
+    },
+    {
+      "time": 0.2,
+      "value": 198.9
+    },
+    {
+      "time": 0.6682926829268293,
+      "value": 42.07500000000002
+    },
+    {
+      "time": 1,
+      "value": 128
+    },
+    {
+      "time": 1.3219512195121952,
+      "value": 5.099999999999994
+    },
+    {
+      "time": 1.675609756097561,
+      "value": 212.925
+    },
+    {
+      "time": 2,
+      "value": 168
+    },
+    {
+      "time": 2,
+      "value": 213
+    },
+    {
+      "time": 2,
+      "value": 45
+    }
+  ],
+  "brightness_points": [
+    {
+      "time": 0,
+      "value": 255
+    },
+    {
+      "time": 0.43414634146341463,
+      "value": 108.375
+    },
+    {
+      "time": 1.4414634146341463,
+      "value": 255
+    },
+    {
+      "time": 10,
+      "value": 128
+    }
+  ],
+  "intensity_points": [
+    {
+      "time": 0,
+      "value": 255
+    },
+    {
+      "time": 10,
+      "value": 255
+    }
+  ],
+  "created": "2025-12-08T17:09:56.348528"
+}
