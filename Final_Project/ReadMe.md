@@ -72,7 +72,6 @@ Create an all-in-one ambient device that eliminates the need for multiple smart 
 - Raspberry Pi 5 (main controller)
 - Arduino Uno (LED driver via serial)
 - Adafruit NeoPixel Ring - 24 LEDs (RGB lighting)
-- Adafruit MPR121 Capacitive Touch Sensor (color mixing input)
 - USB Microphone (voice commands + audio analysis)
 - Bluetooth Speaker (audio playback for Party Mode)
 - USB-C Power Supply (5V, 3A)
@@ -296,10 +295,8 @@ graph TD
 | File | Purpose | Key Functions |
 |------|---------|---------------|
 | `scene.py` | Flask web server, main UI | Timeline editor, scene playback, Spotify search |
-| `hardware.py` | Arduino serial communication | `send_color(r, g, b)`, `init_serial()` |
 | `voice_listener.py` | Speech recognition daemon | Listens for "start [scene name]" commands |
 | `spotify_party.py` | Music integration + audio FFT | `play_preview_with_analysis()`, `microphone_to_leds()` |
-| `color_mixer.py` | Touch sensor color painting | Capacitive input → RGB calculation |
 | `Led_Control_arduino.ino` | NeoPixel driver | Serial parser → `strip.setPixelColor()` |
 
 **Data Flow Example (Voice Command):**
@@ -751,28 +748,6 @@ def play_scene(scene_data):
         # Send to Arduino via serial
         hardware.send_color(color['r'], color['g'], color['b'])
         time.sleep(1)
-```
-
-#### `hardware.py` - Arduino Serial Interface
-
-**Purpose:** Manages USB serial communication with Arduino
-
-**Key Functions:**
-```python
-def init_serial():
-    # Auto-detect Arduino on /dev/ttyACM0 or /dev/ttyUSB0
-    for port in ['/dev/ttyACM0', '/dev/ttyUSB0']:
-        try:
-            ser = serial.Serial(port, 9600, timeout=1)
-            return ser
-        except:
-            pass
-    return None
-
-def send_color(r, g, b):
-    # Format: "R,G,B\n"
-    cmd = f"{int(r)},{int(g)},{int(b)}\n"
-    arduino.write(cmd.encode('utf-8'))
 ```
 
 #### `voice_listener.py` - Speech Recognition Daemon
